@@ -670,7 +670,7 @@ def show_app():
         # Predict
         prediction = model.predict(input_df)
         salary     = int(prediction[0])
-        salary_fmt = f"{salary:,}"
+        salary_fmt = f"₹{salary:,}"
 
         st.markdown(f"""
         <div class="result-card">
