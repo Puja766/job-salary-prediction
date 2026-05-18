@@ -731,7 +731,7 @@ def show_app():
             </div>
         </div>
         """, unsafe_allow_html=True)
-        st.balloons()
+        st.snow()
 
     # Sign Out
     st.markdown("<div style='height:32px'></div>", unsafe_allow_html=True)
