@@ -217,7 +217,6 @@ section[data-testid="stSidebar"] { display: none !important; }
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.10) !important;
     border-radius: 12px !important;
-    color: #fff !important;
     font-family: 'Outfit', sans-serif !important;
     font-size: 15px !important;
     transition: border-color 0.2s, background 0.2s;
@@ -227,25 +226,86 @@ section[data-testid="stSidebar"] { display: none !important; }
     background: rgba(79,70,229,0.08) !important;
     box-shadow: 0 0 0 3px rgba(79,70,229,0.15) !important;
 }
-.stTextInput input {
-    color: #fff !important;
+.stTextInput input,
+.stTextInput > div > div > input {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
     font-family: 'Outfit', sans-serif !important;
     font-size: 15px !important;
+    caret-color: #818cf8 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+.stTextInput input:-webkit-autofill,
+.stTextInput input:-webkit-autofill:hover,
+.stTextInput input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #0d0d20 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
     caret-color: #818cf8 !important;
 }
 .stTextInput input::placeholder { color: rgba(255,255,255,0.25) !important; }
 
 /* =========================================================
-   NUMBER INPUTS
+   NUMBER INPUTS  —  fix white box + invisible text
    ========================================================= */
-.stNumberInput > div > div > input {
+
+/* Outer wrapper */
+.stNumberInput > div {
+    background: transparent !important;
+}
+
+/* The inner container that Streamlit renders as the visible box */
+.stNumberInput > div > div {
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.10) !important;
     border-radius: 12px !important;
-    color: #fff !important;
-    font-family: 'Outfit', sans-serif !important;
 }
-.stNumberInput input { color: #fff !important; }
+
+/* The actual <input> element */
+.stNumberInput input,
+.stNumberInput > div > div > input,
+.stNumberInput [data-testid="stNumberInputField"],
+input[type="number"] {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: #ffffff !important;
+    -webkit-text-fill-color: #ffffff !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 15px !important;
+    caret-color: #818cf8 !important;
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Remove browser autofill yellow/white flash */
+.stNumberInput input:-webkit-autofill,
+.stNumberInput input:-webkit-autofill:hover,
+.stNumberInput input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px #0d0d20 inset !important;
+    -webkit-text-fill-color: #ffffff !important;
+    caret-color: #818cf8 !important;
+}
+
+/* Focus glow on the wrapper */
+.stNumberInput > div > div:focus-within {
+    border-color: rgba(79,70,229,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15) !important;
+}
+
+/* The +/- step buttons */
+.stNumberInput button {
+    background: transparent !important;
+    color: rgba(255,255,255,0.5) !important;
+    border: none !important;
+}
+.stNumberInput button:hover {
+    background: rgba(255,255,255,0.08) !important;
+    color: #fff !important;
+}
 
 /* =========================================================
    SELECTBOX  —  closed / trigger state
