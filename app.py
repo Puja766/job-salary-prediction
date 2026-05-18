@@ -23,17 +23,16 @@ st.set_page_config(
 # =========================
 # LOAD MODEL FILES
 # =========================
-model = pickle.load(open("knn_model.pkl", "rb"))
-scaler = pickle.load(open("scaler.pkl", "rb"))
-columns = pickle.load(open("columns.pkl", "rb"))
+model   = pickle.load(open("knn_model.pkl", "rb"))
+scaler  = pickle.load(open("scaler.pkl",    "rb"))
+columns = pickle.load(open("columns.pkl",   "rb"))
 
 # =========================
 # HELPER: EXTRACT OPTIONS
 # =========================
 def get_options(prefix):
     opts = [col.replace(prefix, "") for col in columns if col.startswith(prefix)]
-    opts = sorted(list(set(opts)))
-    return opts
+    return sorted(list(set(opts)))
 
 job_options     = ["Other"] + get_options("job_title_")
 edu_options     = ["Other"] + get_options("education_level_")
@@ -43,7 +42,7 @@ company_options = ["Other"] + get_options("company_size_")
 remote_options  = ["Other"] + get_options("remote_work_")
 
 # =========================
-# USER STORAGE (JSON file)
+# USER STORAGE  (users.json)
 # =========================
 USERS_FILE = "users.json"
 
@@ -63,7 +62,7 @@ def hash_password(password):
 def register_user(name, email, password):
     users = load_users()
     if email.lower() in users:
-        return False, "⚠️ An account with this email already exists."
+        return False, "An account with this email already exists."
     users[email.lower()] = {
         "name": name,
         "email": email.lower(),
@@ -71,14 +70,14 @@ def register_user(name, email, password):
         "created_at": datetime.now().isoformat()
     }
     save_users(users)
-    return True, "✅ Account created successfully!"
+    return True, "Account created successfully!"
 
 def login_user(email, password):
     users = load_users()
     if email.lower() not in users:
-        return False, "⚠️ No account found with this email."
+        return False, "No account found with this email."
     if users[email.lower()]["password"] != hash_password(password):
-        return False, "⚠️ Incorrect password. Please try again."
+        return False, "Incorrect password. Please try again."
     return True, users[email.lower()]["name"]
 
 def is_valid_email(email):
@@ -87,12 +86,9 @@ def is_valid_email(email):
 # =========================
 # SESSION STATE INIT
 # =========================
-if "logged_in" not in st.session_state:
-    st.session_state.logged_in = False
-if "user_name" not in st.session_state:
-    st.session_state.user_name = ""
-if "auth_page" not in st.session_state:
-    st.session_state.auth_page = "login"   # "login" | "signup"
+if "logged_in" not in st.session_state: st.session_state.logged_in = False
+if "user_name" not in st.session_state: st.session_state.user_name = ""
+if "auth_page" not in st.session_state: st.session_state.auth_page = "login"
 
 # =========================
 # GLOBAL STYLES
@@ -101,13 +97,16 @@ st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Outfit:wght@300;400;500;600&display=swap');
 
-/* ── Reset ── */
+/* ── Base reset ── */
 html, body, [class*="css"] { font-family: 'Outfit', sans-serif !important; }
 #MainMenu, footer, header, .stDeployButton { visibility: hidden !important; display: none !important; }
 .block-container { padding: 0 !important; max-width: 100% !important; }
 section[data-testid="stSidebar"] { display: none !important; }
+.stApp { background: #05050f !important; }
 
-/* ── Auth wrapper ── */
+/* =========================================================
+   AUTH PAGES
+   ========================================================= */
 .auth-bg {
     min-height: 100vh;
     background: #05050f;
@@ -137,43 +136,34 @@ section[data-testid="stSidebar"] { display: none !important; }
     pointer-events: none; z-index: 0;
 }
 
-/* ── Card ── */
+/* Card */
 .auth-card {
     background: rgba(255,255,255,0.04);
     backdrop-filter: blur(24px);
     border: 1px solid rgba(255,255,255,0.08);
     border-radius: 24px;
     padding: 52px 48px;
-    width: 100%;
-    max-width: 480px;
-    position: relative;
-    z-index: 1;
+    width: 100%; max-width: 480px;
+    position: relative; z-index: 1;
     box-shadow: 0 32px 80px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.08);
 }
 
-/* ── Logo ── */
+/* Logo */
 .auth-logo {
     font-family: 'Syne', sans-serif !important;
-    font-size: 22px;
-    font-weight: 800;
-    color: #fff;
-    letter-spacing: -0.3px;
+    font-size: 22px; font-weight: 800;
+    color: #fff; letter-spacing: -0.3px;
     margin-bottom: 36px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+    display: flex; align-items: center; gap: 10px;
 }
 .auth-logo-dot { color: #4f46e5; }
 
-/* ── Heading ── */
+/* Heading */
 .auth-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 36px;
-    font-weight: 800;
-    color: #ffffff;
-    letter-spacing: -1px;
-    line-height: 1.1;
-    margin-bottom: 8px;
+    font-size: 36px; font-weight: 800;
+    color: #ffffff; letter-spacing: -1px;
+    line-height: 1.1; margin-bottom: 8px;
 }
 .auth-title span {
     background: linear-gradient(135deg, #818cf8 0%, #10b981 100%);
@@ -182,23 +172,47 @@ section[data-testid="stSidebar"] { display: none !important; }
     background-clip: text;
 }
 .auth-subtitle {
-    font-size: 15px;
-    color: rgba(255,255,255,0.45);
-    margin-bottom: 36px;
-    font-weight: 400;
+    font-size: 15px; color: rgba(255,255,255,0.45);
+    margin-bottom: 36px; font-weight: 400;
 }
 
-/* ── Input labels ── */
-.auth-label {
-    font-size: 13px;
-    font-weight: 500;
-    color: rgba(255,255,255,0.6);
-    letter-spacing: 0.3px;
-    margin-bottom: 6px;
-    display: block;
+/* Stats strip */
+.auth-stats {
+    display: flex; gap: 24px;
+    margin-bottom: 36px; padding: 20px 0;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.stat-item { flex: 1; text-align: center; }
+.stat-value {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 22px; font-weight: 800;
+    background: linear-gradient(135deg, #818cf8, #10b981);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.stat-label {
+    font-size: 11px; color: rgba(255,255,255,0.35);
+    margin-top: 2px; text-transform: uppercase; letter-spacing: 0.8px;
 }
 
-/* ── Streamlit input overrides ── */
+/* Divider */
+.auth-divider {
+    text-align: center; color: rgba(255,255,255,0.25);
+    font-size: 13px; margin: 20px 0; position: relative;
+}
+.auth-divider::before, .auth-divider::after {
+    content: ''; position: absolute; top: 50%;
+    width: calc(50% - 28px); height: 1px;
+    background: rgba(255,255,255,0.08);
+}
+.auth-divider::before { left: 0; }
+.auth-divider::after  { right: 0; }
+
+/* =========================================================
+   TEXT INPUTS
+   ========================================================= */
 .stTextInput > div > div {
     background: rgba(255,255,255,0.06) !important;
     border: 1px solid rgba(255,255,255,0.10) !important;
@@ -221,7 +235,92 @@ section[data-testid="stSidebar"] { display: none !important; }
 }
 .stTextInput input::placeholder { color: rgba(255,255,255,0.25) !important; }
 
-/* ── Primary button ── */
+/* =========================================================
+   NUMBER INPUTS
+   ========================================================= */
+.stNumberInput > div > div > input {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.10) !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+.stNumberInput input { color: #fff !important; }
+
+/* =========================================================
+   SELECTBOX  —  closed / trigger state
+   ========================================================= */
+.stSelectbox > div > div {
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.10) !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+.stSelectbox > div > div:focus-within {
+    border-color: rgba(79,70,229,0.6) !important;
+    box-shadow: 0 0 0 3px rgba(79,70,229,0.15) !important;
+}
+
+/* Selected value text */
+.stSelectbox [data-baseweb="select"] > div,
+.stSelectbox [data-baseweb="select"] > div > div,
+.stSelectbox [data-baseweb="select"] span {
+    color: #ffffff !important;
+    background: transparent !important;
+    font-family: 'Outfit', sans-serif !important;
+}
+
+/* =========================================================
+   SELECTBOX  —  open dropdown panel & options
+   ========================================================= */
+[data-baseweb="popover"],
+[data-baseweb="popover"] > div,
+[data-baseweb="menu"],
+ul[data-baseweb="menu"],
+[role="listbox"] {
+    background: #13132b !important;
+    border: 1px solid rgba(255,255,255,0.12) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.7) !important;
+}
+
+/* Every option row */
+[data-baseweb="menu"] li,
+[data-baseweb="menu"] [role="option"],
+[role="listbox"] li,
+[role="option"] {
+    background: #13132b !important;
+    color: #e2e2f0 !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 14px !important;
+}
+
+/* Hovered / selected option */
+[data-baseweb="menu"] li:hover,
+[data-baseweb="menu"] [role="option"]:hover,
+[role="option"]:hover,
+[data-baseweb="menu"] li[aria-selected="true"],
+[role="option"][aria-selected="true"] {
+    background: rgba(79,70,229,0.28) !important;
+    color: #ffffff !important;
+}
+
+/* =========================================================
+   ALL FORM LABELS
+   ========================================================= */
+.stSelectbox label,
+.stNumberInput label,
+.stTextInput label {
+    color: rgba(255,255,255,0.55) !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
 .stButton > button {
     width: 100% !important;
     background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%) !important;
@@ -243,122 +342,45 @@ section[data-testid="stSidebar"] { display: none !important; }
     box-shadow: 0 8px 28px rgba(79,70,229,0.45) !important;
     background: linear-gradient(135deg, #5b52f0 0%, #8b47f5 100%) !important;
 }
-.stButton > button:active {
-    transform: translateY(0) !important;
-}
+.stButton > button:active { transform: translateY(0) !important; }
 
-/* ── Divider text ── */
-.auth-divider {
-    text-align: center;
-    color: rgba(255,255,255,0.25);
-    font-size: 13px;
-    margin: 20px 0;
-    position: relative;
-}
-.auth-divider::before, .auth-divider::after {
-    content: '';
-    position: absolute;
-    top: 50%; width: calc(50% - 28px);
-    height: 1px;
+/* =========================================================
+   PASSWORD STRENGTH BAR
+   ========================================================= */
+.pw-strength-wrap {
+    height: 4px;
     background: rgba(255,255,255,0.08);
+    border-radius: 99px; overflow: hidden;
 }
-.auth-divider::before { left: 0; }
-.auth-divider::after  { right: 0; }
-
-/* ── Switch link ── */
-.auth-switch {
-    text-align: center;
-    font-size: 14px;
-    color: rgba(255,255,255,0.4);
-    margin-top: 24px;
+.pw-strength-bar {
+    height: 100%; border-radius: 99px;
+    transition: width 0.3s, background 0.3s;
 }
 
-/* ── Stats strip ── */
-.auth-stats {
-    display: flex;
-    gap: 24px;
-    margin-bottom: 36px;
-    padding: 20px 0;
-    border-top: 1px solid rgba(255,255,255,0.06);
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-}
-.stat-item { flex: 1; text-align: center; }
-.stat-value {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 22px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #818cf8, #10b981);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-.stat-label {
-    font-size: 11px;
-    color: rgba(255,255,255,0.35);
-    margin-top: 2px;
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-}
-
-/* ── Error / Success messages ── */
-.stAlert { border-radius: 12px !important; font-family: 'Outfit', sans-serif !important; }
-
-/* ── Password strength bar ── */
-.pw-strength-wrap { margin-top: 6px; height: 4px; background: rgba(255,255,255,0.08); border-radius: 99px; overflow: hidden; }
-.pw-strength-bar   { height: 100%; border-radius: 99px; transition: width 0.3s, background 0.3s; }
-
-/* ── Main app overrides ── */
-.main-app {
-    background: #05050f;
-    min-height: 100vh;
-    padding: 0;
-}
+/* =========================================================
+   MAIN APP  —  header
+   ========================================================= */
 .app-header {
     background: rgba(255,255,255,0.03);
     border-bottom: 1px solid rgba(255,255,255,0.07);
     padding: 16px 40px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+    display: flex; align-items: center; justify-content: space-between;
 }
 .app-logo-text {
     font-family: 'Syne', sans-serif !important;
-    font-size: 20px;
-    font-weight: 800;
-    color: #fff;
+    font-size: 20px; font-weight: 800; color: #fff;
 }
 .app-logo-text span { color: #818cf8; }
 .app-user-chip {
     background: rgba(79,70,229,0.15);
     border: 1px solid rgba(79,70,229,0.3);
-    border-radius: 99px;
-    padding: 6px 16px;
-    font-size: 13px;
-    color: #a5b4fc;
-    font-weight: 500;
+    border-radius: 99px; padding: 6px 16px;
+    font-size: 13px; color: #a5b4fc; font-weight: 500;
 }
 
-/* Selectbox & number input dark styling */
-.stSelectbox > div > div,
-.stNumberInput > div > div > input {
-    background: rgba(255,255,255,0.06) !important;
-    border: 1px solid rgba(255,255,255,0.10) !important;
-    border-radius: 12px !important;
-    color: #fff !important;
-    font-family: 'Outfit', sans-serif !important;
-}
-.stSelectbox > div > div:focus-within {
-    border-color: rgba(79,70,229,0.6) !important;
-}
-[data-baseweb="select"] * { color: #fff !important; background: #0d0d1f !important; }
-.stSelectbox label, .stNumberInput label, .stTextInput label {
-    color: rgba(255,255,255,0.55) !important;
-    font-family: 'Outfit', sans-serif !important;
-    font-size: 13px !important;
-    font-weight: 500 !important;
-}
-.stNumberInput input { color: #fff !important; }
-.stApp { background: #05050f !important; }
+/* =========================================================
+   MAIN APP  —  headings & text
+   ========================================================= */
 h1 {
     font-family: 'Syne', sans-serif !important;
     color: #fff !important;
@@ -373,33 +395,9 @@ h2, h3 {
 }
 p, li, div { color: rgba(255,255,255,0.75); }
 
-/* Prediction result card */
-.result-card {
-    background: linear-gradient(135deg, rgba(79,70,229,0.2), rgba(16,185,129,0.12));
-    border: 1px solid rgba(79,70,229,0.3);
-    border-radius: 20px;
-    padding: 32px;
-    text-align: center;
-    margin-top: 24px;
-}
-.result-amount {
-    font-family: 'Syne', sans-serif !important;
-    font-size: 52px;
-    font-weight: 800;
-    background: linear-gradient(135deg, #818cf8 0%, #10b981 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-}
-.result-label {
-    font-size: 14px;
-    color: rgba(255,255,255,0.45);
-    margin-top: 4px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-}
-
-/* Column section cards */
+/* =========================================================
+   MAIN APP  —  section cards
+   ========================================================= */
 .section-card {
     background: rgba(255,255,255,0.03);
     border: 1px solid rgba(255,255,255,0.07);
@@ -409,12 +407,32 @@ p, li, div { color: rgba(255,255,255,0.75); }
 }
 .section-card-title {
     font-family: 'Syne', sans-serif !important;
-    font-size: 13px;
-    font-weight: 700;
+    font-size: 13px; font-weight: 700;
     color: #818cf8;
-    text-transform: uppercase;
-    letter-spacing: 1.2px;
+    text-transform: uppercase; letter-spacing: 1.2px;
     margin-bottom: 16px;
+}
+
+/* =========================================================
+   MAIN APP  —  prediction result card
+   ========================================================= */
+.result-card {
+    background: linear-gradient(135deg, rgba(79,70,229,0.2), rgba(16,185,129,0.12));
+    border: 1px solid rgba(79,70,229,0.3);
+    border-radius: 20px; padding: 32px;
+    text-align: center; margin-top: 24px;
+}
+.result-amount {
+    font-family: 'Syne', sans-serif !important;
+    font-size: 52px; font-weight: 800;
+    background: linear-gradient(135deg, #818cf8 0%, #10b981 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+.result-label {
+    font-size: 14px; color: rgba(255,255,255,0.45);
+    margin-top: 4px; letter-spacing: 1px; text-transform: uppercase;
 }
 </style>
 """, unsafe_allow_html=True)
@@ -448,13 +466,11 @@ def show_login():
     </div>
     """, unsafe_allow_html=True)
 
-    # Overlay the actual Streamlit form on top using columns trick
     _, col, _ = st.columns([1, 2, 1])
     with col:
-        # Spacer to push below the header elements rendered by the HTML above
         st.markdown("<div style='height:340px'></div>", unsafe_allow_html=True)
 
-        email    = st.text_input("Email address", placeholder="you@example.com",    key="login_email")
+        email    = st.text_input("Email address", placeholder="you@example.com",     key="login_email")
         password = st.text_input("Password",      placeholder="Enter your password", key="login_password", type="password")
 
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
@@ -473,30 +489,29 @@ def show_login():
                 else:
                     st.error(result)
 
-        st.markdown("""
-        <div class="auth-divider">or</div>
-        """, unsafe_allow_html=True)
+        st.markdown('<div class="auth-divider">or</div>', unsafe_allow_html=True)
 
-        if st.button("Create a new account", key="goto_signup"):
+        if st.button("Sign Up — Create an Account", key="goto_signup"):
             st.session_state.auth_page = "signup"
             st.rerun()
 
         st.markdown("""
-        <div class="auth-switch" style="margin-top:16px; font-size:12px; color:rgba(255,255,255,0.25);">
+        <div style="margin-top:16px; text-align:center; font-size:12px;
+                    color:rgba(255,255,255,0.25);">
             🔒 Your data is stored securely and never shared.
         </div>
         """, unsafe_allow_html=True)
 
 
 # =========================
-# ── SIGNUP PAGE ──
+# ── SIGN UP PAGE ──
 # =========================
 def show_signup():
     st.markdown("""
     <div class="auth-bg">
       <div class="auth-card">
         <div class="auth-logo">💼 <span>Salary<span class="auth-logo-dot">IQ</span></span></div>
-        <div class="auth-title">Create your<br><span>account.</span></div>
+        <div class="auth-title">Sign<br><span>Up.</span></div>
         <div class="auth-subtitle">Join thousands discovering their market value</div>
       </div>
     </div>
@@ -506,46 +521,46 @@ def show_signup():
     with col:
         st.markdown("<div style='height:270px'></div>", unsafe_allow_html=True)
 
-        name     = st.text_input("Full Name",         placeholder="John Doe",           key="signup_name")
-        email    = st.text_input("Email Address",     placeholder="you@example.com",    key="signup_email")
-        password = st.text_input("Password",          placeholder="Min. 8 characters",  key="signup_password",  type="password")
-        confirm  = st.text_input("Confirm Password",  placeholder="Repeat your password", key="signup_confirm", type="password")
+        name     = st.text_input("Full Name",        placeholder="John Doe",             key="signup_name")
+        email    = st.text_input("Email Address",    placeholder="you@example.com",      key="signup_email")
+        password = st.text_input("Password",         placeholder="Min. 8 characters",    key="signup_password", type="password")
+        confirm  = st.text_input("Confirm Password", placeholder="Repeat your password", key="signup_confirm",  type="password")
 
-        # Live password strength indicator
+        # Live password strength bar
         if password:
             strength = 0
             hints = []
-            if len(password) >= 8:
-                strength += 1
-            else:
-                hints.append("at least 8 characters")
-            if re.search(r"[A-Z]", password): strength += 1
-            else: hints.append("an uppercase letter")
-            if re.search(r"\d", password):    strength += 1
-            else: hints.append("a number")
+            if len(password) >= 8:                    strength += 1
+            else:                                     hints.append("8+ characters")
+            if re.search(r"[A-Z]", password):         strength += 1
+            else:                                     hints.append("uppercase letter")
+            if re.search(r"\d", password):            strength += 1
+            else:                                     hints.append("a number")
             if re.search(r"[^A-Za-z0-9]", password): strength += 1
-            else: hints.append("a special character")
+            else:                                     hints.append("special character")
 
-            colors = ["#ef4444","#f97316","#eab308","#10b981"]
-            labels = ["Weak","Fair","Good","Strong"]
-            bar_w  = [25, 50, 75, 100]
-            idx    = min(strength - 1, 3) if strength > 0 else 0
+            bar_colors = ["#ef4444", "#f97316", "#eab308", "#10b981"]
+            bar_labels = ["Weak", "Fair", "Good", "Strong"]
+            bar_widths = [25, 50, 75, 100]
+            idx        = min(strength - 1, 3) if strength > 0 else 0
+            hint_text  = "" if strength == 4 else " — add " + ", ".join(hints[:2])
 
             st.markdown(f"""
-            <div style='margin-top:-8px; margin-bottom:12px;'>
+            <div style='margin-top:-6px; margin-bottom:14px;'>
               <div class='pw-strength-wrap'>
-                <div class='pw-strength-bar' style='width:{bar_w[idx]}%; background:{colors[idx]};'></div>
+                <div class='pw-strength-bar'
+                     style='width:{bar_widths[idx]}%; background:{bar_colors[idx]};'></div>
               </div>
-              <div style='font-size:12px; color:{colors[idx]}; margin-top:4px; font-weight:500;'>
-                {labels[idx]} password
-                {"" if strength == 4 else " — add " + ", ".join(hints[:2])}
+              <div style='font-size:12px; color:{bar_colors[idx]};
+                          margin-top:5px; font-weight:500;'>
+                {bar_labels[idx]} password{hint_text}
               </div>
             </div>
             """, unsafe_allow_html=True)
 
         st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
 
-        if st.button("Create Account →", key="signup_btn"):
+        if st.button("Sign Up →", key="signup_btn"):
             if not all([name, email, password, confirm]):
                 st.error("Please fill in all fields.")
             elif not is_valid_email(email):
@@ -557,15 +572,16 @@ def show_signup():
             else:
                 ok, msg = register_user(name.strip(), email.strip(), password)
                 if ok:
-                    st.success(msg + " Please sign in.")
-                    st.session_state.auth_page = "login"
+                    # Auto-login straight into the app after sign up
+                    st.session_state.logged_in = True
+                    st.session_state.user_name = name.strip()
                     st.rerun()
                 else:
                     st.error(msg)
 
-        st.markdown("""<div class="auth-divider">or</div>""", unsafe_allow_html=True)
+        st.markdown('<div class="auth-divider">or</div>', unsafe_allow_html=True)
 
-        if st.button("I already have an account", key="goto_login"):
+        if st.button("Already have an account? Sign In", key="goto_login"):
             st.session_state.auth_page = "login"
             st.rerun()
 
@@ -574,7 +590,7 @@ def show_signup():
 # ── MAIN PREDICTION APP ──
 # =========================
 def show_app():
-    # ── Header ──
+    # Header
     st.markdown(f"""
     <div class="app-header">
         <div class="app-logo-text">Salary<span>IQ</span></div>
@@ -583,7 +599,6 @@ def show_app():
     """, unsafe_allow_html=True)
 
     st.markdown("<div style='padding: 32px 40px;'>", unsafe_allow_html=True)
-
     st.markdown("""
     <h1 style='margin-bottom:4px;'>💼 Salary Prediction</h1>
     <p style='color:rgba(255,255,255,0.4); font-size:15px; margin-bottom:32px;'>
@@ -591,7 +606,7 @@ def show_app():
     </p>
     """, unsafe_allow_html=True)
 
-    # ── Input Form ──
+    # Two-column input form
     col1, col2 = st.columns(2, gap="large")
 
     with col1:
@@ -614,13 +629,12 @@ def show_app():
         remote  = st.selectbox("Remote Work",  remote_options,  key="remote")
         st.markdown("</div>", unsafe_allow_html=True)
 
-    # ── Predict Button ──
+    # Predict button
     st.markdown("<div style='max-width:320px; margin: 0 auto;'>", unsafe_allow_html=True)
     predict_clicked = st.button("🔍 Predict My Salary", key="predict_btn")
     st.markdown("</div>", unsafe_allow_html=True)
 
     if predict_clicked:
-        # Build input
         input_dict = {
             "experience_years": exp,
             "skills_count":     skills,
@@ -655,7 +669,7 @@ def show_app():
 
         # Predict
         prediction = model.predict(input_df)
-        salary = int(prediction[0])
+        salary     = int(prediction[0])
         salary_fmt = f"${salary:,}"
 
         st.markdown(f"""
@@ -663,13 +677,13 @@ def show_app():
             <div class="result-label">Estimated Annual Salary</div>
             <div class="result-amount">{salary_fmt}</div>
             <div style='color:rgba(255,255,255,0.35); font-size:13px; margin-top:12px;'>
-                Predicted using K-Nearest Neighbors · Based on your inputs
+                Predicted using K-Nearest Neighbors &middot; Based on your inputs
             </div>
         </div>
         """, unsafe_allow_html=True)
         st.balloons()
 
-    # ── Logout ──
+    # Sign Out
     st.markdown("<div style='height:32px'></div>", unsafe_allow_html=True)
     _, _, right_col = st.columns([3, 1, 1])
     with right_col:
