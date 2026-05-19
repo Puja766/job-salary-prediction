@@ -291,9 +291,6 @@ if not st.session_state.logged_in:
 # =========================
 else:
 
-    # =========================
-    # SIDEBAR
-    # =========================
     st.sidebar.title("📌 Navigation")
 
     page = st.sidebar.radio(
@@ -398,77 +395,174 @@ else:
 
         st.title("💰 Predict Salary")
 
+        st.markdown("""
+        <style>
+
+        input {
+            color: black !important;
+        }
+
+        textarea {
+            color: black !important;
+        }
+
+        div[data-baseweb="select"] > div {
+            color: black !important;
+        }
+
+        </style>
+        """, unsafe_allow_html=True)
+
         col1, col2 = st.columns(2)
 
         with col1:
-            exp = st.number_input("Experience", 0, 30)
-            skills = st.number_input("Skills Count", 0, 50)
-            cert = st.number_input("Certifications", 0, 20)
+
+            exp = st.number_input(
+                "Experience (Years)",
+                min_value=0,
+                max_value=30,
+                value=1
+            )
+
+            skills = st.number_input(
+                "Skills Count",
+                min_value=0,
+                max_value=50,
+                value=5
+            )
+
+            cert = st.number_input(
+                "Certifications",
+                min_value=0,
+                max_value=20,
+                value=1
+            )
+
+            job_title = st.selectbox(
+                "Job Title",
+                [
+                    "Data Scientist",
+                    "Software Engineer",
+                    "Web Developer",
+                    "AI Engineer",
+                    "ML Engineer",
+                    "Business Analyst"
+                ]
+            )
 
         with col2:
+
             education = st.selectbox(
                 "Education",
-                ["Bachelor", "Master", "PhD"]
+                [
+                    "Bachelor",
+                    "Master",
+                    "PhD"
+                ]
             )
 
             company = st.selectbox(
                 "Company Size",
-                ["Small", "Medium", "Large"]
+                [
+                    "Small",
+                    "Medium",
+                    "Large"
+                ]
             )
 
             remote = st.selectbox(
                 "Remote Work",
-                ["Remote", "Hybrid", "Office"]
+                [
+                    "Remote",
+                    "Hybrid",
+                    "Office"
+                ]
+            )
+
+            location = st.selectbox(
+                "Location",
+                [
+                    "Bangalore",
+                    "Delhi",
+                    "Mumbai",
+                    "Pune",
+                    "Hyderabad"
+                ]
+            )
+
+            industry = st.selectbox(
+                "Industry",
+                [
+                    "IT",
+                    "Finance",
+                    "Healthcare",
+                    "Education",
+                    "E-Commerce"
+                ]
             )
 
         if st.button("Predict Salary"):
 
-            input_dict = {
-                "EXPERIENCE_YEARS": exp,
-                "SKILLS_COUNT": skills,
-                "CERTIFICATIONS": cert,
-                "EDUCATION_LEVEL": education,
-                "COMPANY_SIZE": company,
-                "REMOTE_WORK": remote
-            }
+            try:
 
-            input_df = pd.get_dummies(
-                pd.DataFrame([input_dict])
-            )
+                input_dict = {
 
-            input_df = input_df.reindex(
-                columns=columns,
-                fill_value=0
-            )
+                    "EXPERIENCE_YEARS": exp,
+                    "SKILLS_COUNT": skills,
+                    "CERTIFICATIONS": cert,
 
-            scaled_data = scaler.transform(input_df)
+                    "EDUCATION_LEVEL": education,
+                    "COMPANY_SIZE": company,
+                    "REMOTE_WORK": remote,
 
-            prediction = model.predict(scaled_data)[0]
+                    "JOB_TITLE": job_title,
+                    "LOCATION": location,
+                    "INDUSTRY": industry
+                }
 
-            st.success(
-                f"💰 Predicted Salary: ₹ {prediction:,.0f}"
-            )
+                input_df = pd.DataFrame([input_dict])
 
-            st.balloons()
+                input_df = pd.get_dummies(input_df)
 
-            chart_df = pd.DataFrame({
-                "Category": [
-                    "Experience",
-                    "Skills",
-                    "Certifications"
-                ],
-                "Value": [
-                    exp,
-                    skills,
-                    cert
-                ]
-            })
+                input_df = input_df.reindex(
+                    columns=columns,
+                    fill_value=0
+                )
 
-            st.subheader("📊 Input Analysis")
+                scaled_data = scaler.transform(input_df)
 
-            st.bar_chart(
-                chart_df.set_index("Category")
-            )
+                prediction = model.predict(scaled_data)[0]
+
+                st.success(
+                    f"💰 Predicted Salary: ₹ {prediction:,.0f}"
+                )
+
+                st.balloons()
+
+                chart_df = pd.DataFrame({
+
+                    "Category": [
+                        "Experience",
+                        "Skills",
+                        "Certifications"
+                    ],
+
+                    "Value": [
+                        exp,
+                        skills,
+                        cert
+                    ]
+                })
+
+                st.subheader("📊 Input Analysis")
+
+                st.bar_chart(
+                    chart_df.set_index("Category")
+                )
+
+            except Exception as e:
+
+                st.error(f"Error: {e}")
 
     # =========================
     # DASHBOARD
