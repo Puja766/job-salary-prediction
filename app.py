@@ -674,7 +674,7 @@ def show_sidebar():
     st.sidebar.markdown('<div class="sidebar-inner">', unsafe_allow_html=True)
 
     sec = st.session_state.profile_section
-    c1,c2,c3 = st.sidebar.columns(3)
+    c1, c2, c3 = st.sidebar.columns([1, 1, 1.5], gap="small")
     with c1:
         if st.button("Info",     key="sb_info", use_container_width=True):
             st.session_state.profile_section="info"; st.rerun()
