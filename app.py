@@ -682,7 +682,7 @@ def show_sidebar():
         if st.button("Edit",     key="sb_edit", use_container_width=True):
             st.session_state.profile_section="edit"; st.rerun()
     with c3:
-        if st.button("Security", key="sb_sec",  use_container_width=True):
+        if st.button("Secure", key="sb_sec",  use_container_width=True):
             st.session_state.profile_section="security"; st.rerun()
 
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:10px 0;"></div>', unsafe_allow_html=True)
