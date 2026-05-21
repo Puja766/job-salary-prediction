@@ -214,8 +214,6 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 
 st.markdown(f"""
 <style>
-
-/* ── SIDEBAR ── */
 section[data-testid="stSidebar"]{{
   background:{SIDEBAR_BG}!important;
   border-right:1px solid {CARD_BORDER}!important;
