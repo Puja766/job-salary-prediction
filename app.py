@@ -197,17 +197,15 @@ else:
     WA_BG         = "rgba(37,211,102,0.08)"
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
-
 # =========================
 # INJECT CSS
 # =========================
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
-
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
 html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
-#MainMenu,footer{{visibility:hidden!important;display:none!important;}}
+#MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
 .block-container{{padding:0!important;max-width:100%!important;}}
 
 /* ── APP BG ── */
@@ -224,7 +222,7 @@ section[data-testid="stSidebar"]{{
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
-/* ── PROFILE HEADER ── */
+/* PROFILE HEADER  */
 .profile-card{{
   background:{PROFILE_BG};padding:28px 20px 18px;text-align:center;
   position:relative;overflow:hidden;
@@ -675,15 +673,15 @@ def show_sidebar():
     st.sidebar.markdown('<div class="sidebar-inner">', unsafe_allow_html=True)
 
     sec = st.session_state.profile_section
-    c1,c2,c3 = st.sidebar.columns(3)
+    c1, c2, c3 = st.sidebar.columns([1, 1, 1.5], gap="small")
     with c1:
-        if st.button("ℹ️ Info",     key="sb_info", use_container_width=True):
+        if st.button("Info",     key="sb_info", use_container_width=True):
             st.session_state.profile_section="info"; st.rerun()
     with c2:
-        if st.button("✏️ Edit",     key="sb_edit", use_container_width=True):
+        if st.button("Edit",     key="sb_edit", use_container_width=True):
             st.session_state.profile_section="edit"; st.rerun()
     with c3:
-        if st.button("🔒 Security", key="sb_sec",  use_container_width=True):
+        if st.button("Security", key="sb_sec",  use_container_width=True):
             st.session_state.profile_section="security"; st.rerun()
 
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:10px 0;"></div>', unsafe_allow_html=True)
@@ -921,10 +919,7 @@ def show_predict(model, scaler, columns):
 
         st.markdown(f'<div style="background:{SUCCESS_BG};border:1px solid {SUCCESS_B};border-radius:12px;padding:14px 18px;margin-top:12px;"><span style="font-size:14px;color:#10b981;font-weight:700;">✅ Prediction saved!</span><span style="font-size:13px;color:{TEXT2};"> Go to 💡 Insights to get tips and send to WhatsApp.</span></div>', unsafe_allow_html=True)
         st.balloons()
-        cdf = pd.DataFrame({"Category":["Experience","Skills","Certifications"],"Value":[exp,skills,cert]})
-        st.subheader("📊 Input Analysis")
-        st.bar_chart(cdf.set_index("Category"))
-    st.markdown('</div>', unsafe_allow_html=True)
+     
 
 # =========================
 # INSIGHTS PAGE (with WhatsApp)
