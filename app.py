@@ -204,7 +204,6 @@ else:
 st.markdown(f"""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
-
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
 html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 #MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
@@ -213,15 +212,6 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* ── APP BG ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 
-/* ── SIDEBAR ── */
-/*section[data-testid="stSidebar"]{{
-  background:{SIDEBAR_BG}!important;
-  border-right:1px solid {CARD_BORDER}!important;
-  min-width:270px!important; max-width:270px!important;
-  transition:all 0.3s;
-}}
-section[data-testid="stSidebar"]>div{{padding:0!important;}}
-section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}*/
 st.markdown(f"""
 <style>
 
