@@ -197,55 +197,27 @@ else:
     WA_BG         = "rgba(37,211,102,0.08)"
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
-
 # =========================
-# SIDEBAR STATE
-# =========================
-if "sidebar" not in st.session_state:
-    st.session_state.sidebar = True
-
-# =========================
-# TOGGLE BUTTON
-# =========================
-if st.button("Hide Profile" if st.session_state.sidebar else "Show Profile"):
-    st.session_state.sidebar = not st.session_state.sidebar
-
-# =========================
-# SIDEBAR WIDTH
-# =========================
-sidebar_width = "270px" if st.session_state.sidebar else "0px"
-# =========================
-# CSS
+# INJECT CSS
 # =========================
 st.markdown(f"""
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+*,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
+html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
+#MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
+.block-container{{padding:0!important;max-width:100%!important;}}
 
-/* Hide Streamlit default arrow */
-button[kind="header"] {{
-    display:none !important;
+/* ── APP BG ── */
+.stApp{{background:{BG}!important;transition:all 0.4s ease;}}
+
+/* ── SIDEBAR ── */
+section[data-testid="stSidebar"]{{
+  background:{SIDEBAR_BG}!important;
+  border-right:1px solid {CARD_BORDER}!important;
+  min-width:270px!important; max-width:270px!important;
+  transition:all 0.3s;
 }}
-
-#MainMenu, footer, header {{
-    visibility:hidden !important;
-    display:none !important;
-}}
-
-section[data-testid="stSidebar"] {{
-    width:{sidebar_width} !important;
-    min-width:{sidebar_width} !important;
-    transition:0.3s;
-    overflow:hidden;
-}}
-
-</style>
-""", unsafe_allow_html=True)
-
-# =========================
-# SIDEBAR CONTENT
-# =========================
-with st.sidebar:
-    st.title("Profile")
-    st.write("SalaryIQ")
 
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
