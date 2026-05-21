@@ -676,13 +676,13 @@ def show_sidebar():
     sec = st.session_state.profile_section
     c1,c2,c3 = st.sidebar.columns(3)
     with c1:
-        if st.button("ℹ️ Info",     key="sb_info", use_container_width=True):
+        if st.button("Info",     key="sb_info", use_container_width=True):
             st.session_state.profile_section="info"; st.rerun()
     with c2:
-        if st.button("✏️ Edit",     key="sb_edit", use_container_width=True):
+        if st.button("Edit",     key="sb_edit", use_container_width=True):
             st.session_state.profile_section="edit"; st.rerun()
     with c3:
-        if st.button("🔒 Security", key="sb_sec",  use_container_width=True):
+        if st.button("Security", key="sb_sec",  use_container_width=True):
             st.session_state.profile_section="security"; st.rerun()
 
     st.sidebar.markdown(f'<div style="height:1px;background:{DIVIDER};margin:10px 0;"></div>', unsafe_allow_html=True)
