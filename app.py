@@ -247,16 +247,19 @@ section[data-testid="stSidebar"]{{
     display: none !important;
 }}
 
-/* Custom arrow */
-[data-testid="collapsedControl"]::before {{
+/* Custom Arrow */
+[data-testid="collapsedControl"] button::before {{
     content: "☰";
     color: white !important;
     font-size: 24px !important;
-    font-weight: bold !important;
+    font-weight: 700 !important;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    height: 100% !important;
 }}
 
 /* Remove button style */
