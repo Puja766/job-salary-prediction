@@ -219,40 +219,52 @@ section[data-testid="stSidebar"]{{
   min-width:270px!important; max-width:270px!important;
   transition:all 0.3s;
 }}
-section[data-testid="stSidebar"]>div{{padding:0!important;}}
-section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
-/* ===== Sidebar Toggle Button Fix ===== */
+/* ===== CUSTOM SIDEBAR BUTTON ===== */
+
 [data-testid="collapsedControl"] {{
     position: fixed !important;
-    top: 70px !important;
-    left: 12px !important;
+    top: 75px !important;
+    left: 14px !important;
     z-index: 999999 !important;
 
-    background: rgba(30, 41, 59, 0.85) !important;
-    backdrop-filter: blur(12px);
+    width: 46px !important;
+    height: 46px !important;
 
+    background: rgba(15,23,42,0.95) !important;
     border-radius: 14px !important;
-    padding: 8px !important;
 
-    box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+    backdrop-filter: blur(12px) !important;
 
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
 }}
 
-/* Hover */
-[data-testid="collapsedControl"]:hover {{
-    transform: scale(1.05);
-    transition: 0.2s ease;
-}}
-
-/* Arrow Icon */
+/* Hide default icon */
 [data-testid="collapsedControl"] svg {{
-    width: 22px !important;
-    height: 22px !important;
-    color: white !important;
+    display: none !important;
 }}
+
+/* Custom arrow */
+[data-testid="collapsedControl"]::before {{
+    content: "☰";
+    color: white !important;
+    font-size: 24px !important;
+    font-weight: bold !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}}
+
+/* Remove button style */
+[data-testid="collapsedControl"] button {{
+    background: transparent !important;
+    border: none !important;
+}}
+
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
