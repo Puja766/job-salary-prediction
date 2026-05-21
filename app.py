@@ -220,7 +220,7 @@ section[data-testid="stSidebar"]{{
   transition:all 0.3s;
 }}
 /* ===== Sidebar Toggle Button Fix ===== */
-[data-testid="collapsedControl"] {
+[data-testid="collapsedControl"] {{
     position: fixed !important;
     top: 70px !important;
     left: 12px !important;
@@ -237,20 +237,20 @@ section[data-testid="stSidebar"]{{
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
-}
+}}
 
 /* Hover */
-[data-testid="collapsedControl"]:hover {
+[data-testid="collapsedControl"]:hover {{
     transform: scale(1.05);
     transition: 0.2s ease;
-}
+}}
 
 /* Arrow Icon */
-[data-testid="collapsedControl"] svg {
+[data-testid="collapsedControl"] svg {{
     width: 22px !important;
     height: 22px !important;
     color: white !important;
-}
+}}
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
