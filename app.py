@@ -207,7 +207,7 @@ st.markdown(f"""
 
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
 html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
-#MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
+#MainMenu,footer{{visibility:hidden!important;display:none!important;}}
 .block-container{{padding:0!important;max-width:100%!important;}}
 
 /* ── APP BG ── */
@@ -220,16 +220,7 @@ section[data-testid="stSidebar"]{{
   min-width:270px!important; max-width:270px!important;
   transition:all 0.3s;
 }}
-button[kind="header"]{
-    color: black !important;
-    font-size: 26px !important;
-}
 
-button[kind="header"] svg{
-    width: 28px !important;
-    height: 28px !important;
-    stroke: black !important;
-}
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
