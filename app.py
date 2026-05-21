@@ -225,7 +225,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}*/
 st.markdown(f"""
 <style>
 
-/* ───────── SIDEBAR ───────── */
+/* SIDEBAR */
 section[data-testid="stSidebar"]{{
     background: {SIDEBAR_BG} !important;
     border-right: 1px solid {CARD_BORDER} !important;
@@ -242,7 +242,7 @@ section[data-testid="stSidebar"] *{{
     color: {TEXT1} !important;
 }}
 
-/* ───────── SIDEBAR OPEN/CLOSE BUTTON ───────── */
+/* SIDEBAR BUTTON */
 [data-testid="collapsedControl"]{{
     display: flex !important;
     visibility: visible !important;
@@ -262,12 +262,10 @@ section[data-testid="stSidebar"] *{{
     cursor: pointer !important;
 }}
 
-/* Hover */
 [data-testid="collapsedControl"]:hover{{
     background: #1F2937 !important;
 }}
 
-/* Icon visible */
 [data-testid="collapsedControl"] svg{{
     color: white !important;
     width: 20px !important;
