@@ -222,25 +222,28 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 }}
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}*/
+st.markdown(f"""
+<style>
+
 /* ───────── SIDEBAR ───────── */
-section[data-testid="stSidebar"]{
+section[data-testid="stSidebar"]{{
     background: {SIDEBAR_BG} !important;
     border-right: 1px solid {CARD_BORDER} !important;
     min-width: 270px !important;
     max-width: 270px !important;
     transition: all 0.3s ease !important;
-}
+}}
 
-section[data-testid="stSidebar"] > div{
+section[data-testid="stSidebar"] > div{{
     padding: 0 !important;
-}
+}}
 
-section[data-testid="stSidebar"] *{
+section[data-testid="stSidebar"] *{{
     color: {TEXT1} !important;
-}
+}}
 
 /* ───────── SIDEBAR OPEN/CLOSE BUTTON ───────── */
-[data-testid="collapsedControl"]{
+[data-testid="collapsedControl"]{{
     display: flex !important;
     visibility: visible !important;
     opacity: 1 !important;
@@ -257,26 +260,22 @@ section[data-testid="stSidebar"] *{
 
     padding: 7px !important;
     cursor: pointer !important;
-}
+}}
 
-/* Hover effect */
-[data-testid="collapsedControl"]:hover{
+/* Hover */
+[data-testid="collapsedControl"]:hover{{
     background: #1F2937 !important;
-    transform: scale(1.05);
-}
+}}
 
 /* Icon visible */
-[data-testid="collapsedControl"] svg{
+[data-testid="collapsedControl"] svg{{
     color: white !important;
     width: 20px !important;
     height: 20px !important;
-}
+}}
 
-/* IMPORTANT: Never hide the control */
-button[kind="header"]{
-    display: flex !important;
-    visibility: visible !important;
-}
+</style>
+""", unsafe_allow_html=True)
 
 /* ── PROFILE HEADER ── */
 .profile-card{{
