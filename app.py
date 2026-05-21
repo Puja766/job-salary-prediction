@@ -781,140 +781,30 @@ def show_topbar():
 # =========================
 # HOME PAGE
 # =========================
-# =========================
-# HOME PAGE
-# =========================
-import base64
-
-def get_base64(img_path):
-    with open(img_path, "rb") as f:
-        data = f.read()
-    return base64.b64encode(data).decode()
-
-# Your background image
-bg_img = get_base64("salary.png")   # <-- image filename here
-
-
 def show_home():
     st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
 
     # Hero section
     st.markdown(f"""
-    <div style="
-        background-image:
-            linear-gradient(rgba(20,20,40,0.65), rgba(20,20,40,0.65)),
-            url('data:image/jpg;base64,{bg_img}');
-        background-size:cover;
-        background-position:center;
-        border-radius:24px;
-        padding:48px 40px;
-        margin-bottom:28px;
-        position:relative;
-        overflow:hidden;
-        box-shadow:0 16px 48px rgba(0,0,0,0.35);
-    ">
-
-      <!-- Glow circles -->
-      <div style="
-          position:absolute;
-          top:-40px;
-          right:-40px;
-          width:200px;
-          height:200px;
-          border-radius:50%;
-          background:rgba(255,255,255,0.05);
-      "></div>
-
-      <div style="
-          position:absolute;
-          bottom:-30px;
-          left:200px;
-          width:150px;
-          height:150px;
-          border-radius:50%;
-          background:rgba(255,255,255,0.04);
-      "></div>
-
-      <!-- Content -->
+    <div style="background:{HERO_BG};border-radius:24px;padding:48px 40px;margin-bottom:28px;
+                position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
+      <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
+      <div style="position:absolute;bottom:-30px;left:200px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
       <div style="position:relative;z-index:1;max-width:600px;">
-
-        <div style="
-            font-size:12px;
-            font-weight:700;
-            color:rgba(255,255,255,0.75);
-            text-transform:uppercase;
-            letter-spacing:2px;
-            margin-bottom:14px;
-        ">
-          💼 AI-Powered Career Intelligence
+        <div style="font-size:12px;font-weight:700;color:rgba(255,255,255,0.7);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;">💼 AI-Powered Career Intelligence</div>
+        <div style="font-family:'Plus Jakarta Sans',sans-serif;font-size:38px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;">
+          Welcome to<br><em style="font-style:normal;opacity:0.9;">Salary Prediction App</em>
         </div>
-
-        <div style="
-            font-family:'Plus Jakarta Sans',sans-serif;
-            font-size:38px;
-            font-weight:900;
-            color:#fff;
-            line-height:1.15;
-            margin-bottom:16px;
-        ">
-          Welcome to<br>
-          <em style="font-style:normal;opacity:0.95;">
-            Salary Prediction App
-          </em>
+        <div style="font-size:15px;color:rgba(255,255,255,0.75);line-height:1.7;margin-bottom:24px;">
+          Predict your market salary using Machine Learning based on your experience,<br>education, certifications, skills, and industry — instantly.
         </div>
-
-        <div style="
-            font-size:15px;
-            color:rgba(255,255,255,0.85);
-            line-height:1.7;
-            margin-bottom:24px;
-        ">
-          Predict your market salary using Machine Learning based on your experience,
-          education, certifications, skills, and industry — instantly.
-        </div>
-
         <div style="display:flex;gap:12px;flex-wrap:wrap;">
-
-          <span style="
-              background:rgba(255,255,255,0.15);
-              border:1px solid rgba(255,255,255,0.3);
-              color:#fff;
-              padding:8px 18px;
-              border-radius:99px;
-              font-size:13px;
-              font-weight:600;
-          ">
-            ✅ 95% Accuracy
-          </span>
-
-          <span style="
-              background:rgba(255,255,255,0.15);
-              border:1px solid rgba(255,255,255,0.3);
-              color:#fff;
-              padding:8px 18px;
-              border-radius:99px;
-              font-size:13px;
-              font-weight:600;
-          ">
-            ⚡ Instant Results
-          </span>
-
-          <span style="
-              background:rgba(255,255,255,0.15);
-              border:1px solid rgba(255,255,255,0.3);
-              color:#fff;
-              padding:8px 18px;
-              border-radius:99px;
-              font-size:13px;
-              font-weight:600;
-          ">
-            📱 WhatsApp Insights
-          </span>
-
+          <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff!important;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;">✅ 95% Accuracy</span>
+          <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff!important;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;">⚡ Instant Results</span>
+          <span style="background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);color:#fff!important;padding:8px 18px;border-radius:99px;font-size:13px;font-weight:600;">📱 WhatsApp Insights</span>
         </div>
       </div>
-    </div>
-    """, unsafe_allow_html=True)
+    </div>""", unsafe_allow_html=True)
 
     # Stats strip
     st.markdown(f"""
