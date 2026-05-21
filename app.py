@@ -258,33 +258,69 @@ section[data-testid="stSidebar"] *{{
     color:{TEXT1}!important;
 }}
 
-/* =========================
-   TOGGLE BUTTON
-========================= */
-button[kind="header"]{{
-    position:fixed!important;
+/* ── SIDEBAR TOGGLE BUTTON (always visible) ── */
+button[data-testid="baseButton-header"] {{
+    position: fixed !important;
+    top: 14px !important;
+    left: 14px !important;
+    width: 46px !important;
+    height: 46px !important;
+    z-index: 999999 !important;
+    border-radius: 14px !important;
+    background: rgba(15,23,42,0.95) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
+    backdrop-filter: blur(12px) !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+}}
+button[data-testid="baseButton-header"] svg {{
+    display: none !important;
+}}
+button[data-testid="baseButton-header"]::before {{
+    content: "☰";
+    color: white !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
+    line-height: 1 !important;
+}}
+button[data-testid="baseButton-header"]:hover {{
+    transform: scale(1.05);
+    transition: 0.2s ease;
+}}
 
-    top:72px!important;
-    left:14px!important;
-
-    width:46px!important;
-    height:46px!important;
-
-    z-index:999999!important;
-
-    border-radius:14px!important;
-
-    background:rgba(15,23,42,0.95)!important;
-    border:1px solid rgba(255,255,255,0.08)!important;
-
-    backdrop-filter:blur(12px)!important;
-    -webkit-backdrop-filter:blur(12px)!important;
-
-    display:flex!important;
-    align-items:center!important;
-    justify-content:center!important;
-
-    box-shadow:0 6px 20px rgba(0,0,0,0.35)!important;
+/* Collapsed state mein bhi button dikhta rahe */
+[data-testid="collapsedControl"] {{
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    z-index: 999999 !important;
+}}
+[data-testid="collapsedControl"] button {{
+    position: fixed !important;
+    top: 14px !important;
+    left: 14px !important;
+    width: 46px !important;
+    height: 46px !important;
+    border-radius: 14px !important;
+    background: rgba(15,23,42,0.95) !important;
+    border: 1px solid rgba(255,255,255,0.15) !important;
+    z-index: 999999 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+    cursor: pointer !important;
+}}
+[data-testid="collapsedControl"] button svg {{
+    display: none !important;
+}}
+[data-testid="collapsedControl"] button::before {{
+    content: "☰";
+    color: white !important;
+    font-size: 22px !important;
+    font-weight: 700 !important;
 }}
 
 /* Hide default arrow */
