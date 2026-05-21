@@ -197,32 +197,60 @@ else:
     WA_BG         = "rgba(37,211,102,0.08)"
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
-
 # =========================
 # INJECT CSS
 # =========================
 st.markdown(f"""
 <style>
+
+/* Google Font */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
-*,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
-html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
-#MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
-.block-container{{padding:0!important;max-width:100%!important;}}
 
-/* ── APP BG ── */
-.stApp{{background:{BG}!important;transition:all 0.4s ease;}}
-
-st.markdown(f"""
-<style>
-section[data-testid="stSidebar"]{{
-  background:{SIDEBAR_BG}!important;
-  border-right:1px solid {CARD_BORDER}!important;
-  min-width:270px!important;
-  max-width:270px!important;
-  transition:all 0.3s;
+/* Reset */
+*,*::before,*::after{{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
 }}
 
-section[data-testid="stSidebar"]>div{{
+html,body,[class*="css"]{{
+    font-family:'Inter',sans-serif!important;
+}}
+
+#MainMenu,
+footer,
+header{{
+    visibility:hidden!important;
+    display:none!important;
+}}
+
+.block-container{{
+    padding:0!important;
+    max-width:100%!important;
+}}
+
+/* =========================
+   APP BACKGROUND
+========================= */
+.stApp{{
+    background:{BG}!important;
+    transition:all 0.4s ease;
+}}
+
+/* =========================
+   SIDEBAR
+========================= */
+section[data-testid="stSidebar"]{{
+    background:{SIDEBAR_BG}!important;
+    border-right:1px solid {CARD_BORDER}!important;
+
+    min-width:270px!important;
+    max-width:270px!important;
+
+    transition:all 0.3s;
+}}
+
+section[data-testid="stSidebar"] > div{{
     padding:0!important;
 }}
 
@@ -230,41 +258,55 @@ section[data-testid="stSidebar"] *{{
     color:{TEXT1}!important;
 }}
 
-/* ===== TOGGLE BUTTON ===== */
+/* =========================
+   TOGGLE BUTTON
+========================= */
+button[kind="header"]{{
+    position:fixed!important;
 
-button[kind="header"] {{
-    position: fixed !important;
-    top: 72px !important;
-    left: 14px !important;
-    z-index: 999999 !important;
+    top:72px!important;
+    left:14px!important;
 
-    width: 46px !important;
-    height: 46px !important;
+    width:46px!important;
+    height:46px!important;
 
-    border-radius: 14px !important;
-    background: rgba(15,23,42,0.95) !important;
+    z-index:999999!important;
 
-    backdrop-filter: blur(12px) !important;
-    border: 1px solid rgba(255,255,255,0.08) !important;
+    border-radius:14px!important;
 
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
+    background:rgba(15,23,42,0.95)!important;
+    border:1px solid rgba(255,255,255,0.08)!important;
+
+    backdrop-filter:blur(12px)!important;
+    -webkit-backdrop-filter:blur(12px)!important;
+
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
 
     box-shadow:0 6px 20px rgba(0,0,0,0.35)!important;
 }}
 
-/* ICON */
-button[kind="header"]::before {{
-    content:"☰";
-    color:white;
-    font-size:24px;
-    font-weight:700;
+/* Hide default arrow */
+button[kind="header"] svg{{
+    display:none!important;
 }}
 
-/* Hide old svg */
-button[kind="header"] svg {{
-    display:none!important;
+/* Custom icon */
+button[kind="header"]::before{{
+    content:"☰";
+
+    color:white!important;
+
+    font-size:24px!important;
+    font-weight:700!important;
+    line-height:1!important;
+}}
+
+/* Hover */
+button[kind="header"]:hover{{
+    transform:scale(1.05);
+    transition:0.2s ease;
 }}
 
 </style>
