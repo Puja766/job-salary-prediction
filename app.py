@@ -920,10 +920,7 @@ def show_predict(model, scaler, columns):
 
         st.markdown(f'<div style="background:{SUCCESS_BG};border:1px solid {SUCCESS_B};border-radius:12px;padding:14px 18px;margin-top:12px;"><span style="font-size:14px;color:#10b981;font-weight:700;">✅ Prediction saved!</span><span style="font-size:13px;color:{TEXT2};"> Go to 💡 Insights to get tips and send to WhatsApp.</span></div>', unsafe_allow_html=True)
         st.balloons()
-        cdf = pd.DataFrame({"Category":["Experience","Skills","Certifications"],"Value":[exp,skills,cert]})
-        st.subheader("📊 Input Analysis")
-        st.bar_chart(cdf.set_index("Category"))
-    st.markdown('</div>', unsafe_allow_html=True)
+     
 
 # =========================
 # INSIGHTS PAGE (with WhatsApp)
