@@ -212,6 +212,15 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* ── APP BG ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 
+/* ── SIDEBAR ── */
+section[data-testid="stSidebar"]{{
+  background:{SIDEBAR_BG}!important;
+  border-right:1px solid {CARD_BORDER}!important;
+  min-width:270px!important; max-width:270px!important;
+  transition:all 0.3s;
+}}
+section[data-testid="stSidebar"]>div{{padding:0!important;}}
+section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 /* ===== Sidebar Toggle Button Fix ===== */
 [data-testid="collapsedControl"] {{
     position: fixed !important;
