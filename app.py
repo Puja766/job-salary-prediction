@@ -197,6 +197,25 @@ else:
     WA_BG         = "rgba(37,211,102,0.08)"
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
+
+# =========================
+# PAGE CONFIG
+# =========================
+st.set_page_config(layout="wide")
+
+# =========================
+# SIDEBAR TOGGLE
+# =========================
+if "sidebar" not in st.session_state:
+    st.session_state.sidebar = True
+
+if st.button("Hide Sidebar" if st.session_state.sidebar else "Show Sidebar"):
+    st.session_state.sidebar = not st.session_state.sidebar
+
+# =========================
+# SIDEBAR WIDTH
+# =========================
+sidebar_width = "270px" if st.session_state.sidebar else "0px"
 # =========================
 # INJECT CSS
 # =========================
