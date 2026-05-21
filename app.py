@@ -785,8 +785,8 @@ def show_home():
     st.markdown('<div class="page-wrap">', unsafe_allow_html=True)
 
     # Hero section
-st.markdown(f"""
-<div style="background:{HERO_BG};border-radius:24px;padding:48px 40px;margin-bottom:28px;
+    st.markdown(f"""
+    <div style="background:{HERO_BG};border-radius:24px;padding:48px 40px;margin-bottom:28px;
                 position:relative;overflow:hidden;box-shadow:0 16px 48px rgba(99,102,241,0.3);">
       <div style="position:absolute;top:-40px;right:-40px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.05);"></div>
       <div style="position:absolute;bottom:-30px;left:200px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,0.04);"></div>
