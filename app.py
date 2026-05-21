@@ -198,8 +198,6 @@ else:
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
 
-import streamlit as st
-
 # Sidebar state initialize
 if "show_profile" not in st.session_state:
     st.session_state.show_profile = True
@@ -211,21 +209,7 @@ with toggle_col1:
     if st.button("☰"):   # button icon
         st.session_state.show_profile = not st.session_state.show_profile
 
-# Show/Hide profile sidebar
-if st.session_state.show_profile:
-    with st.container():
-        st.markdown("""
-        <div style="
-            background: linear-gradient(180deg,#4f46e5,#7c3aed);
-            padding:20px;
-            border-radius:20px;
-            color:white;
-            text-align:center;
-        ">
-            <h2>Pooja</h2>
-            <p>pooja@gmail.com</p>
-        </div>
-        """, unsafe_allow_html=True)
+
 # =========================
 # INJECT CSS
 # =========================
