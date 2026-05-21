@@ -198,18 +198,18 @@ else:
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
 
-# =========================
-# PAGE CONFIG
-# =========================
-st.set_page_config(layout="wide")
+import streamlit as st
 
 # =========================
-# SIDEBAR TOGGLE
+# SIDEBAR STATE
 # =========================
 if "sidebar" not in st.session_state:
     st.session_state.sidebar = True
 
-if st.button("Hide Sidebar" if st.session_state.sidebar else "Show Sidebar"):
+# =========================
+# TOGGLE BUTTON
+# =========================
+if st.button("Hide Profile" if st.session_state.sidebar else "Show Profile"):
     st.session_state.sidebar = not st.session_state.sidebar
 
 # =========================
