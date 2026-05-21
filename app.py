@@ -315,7 +315,7 @@ button[kind="header"]:hover{{
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
-/* ── PROFILE HEADER ── */
+/* PROFILE HEADER  */
 .profile-card{{
   background:{PROFILE_BG};padding:28px 20px 18px;text-align:center;
   position:relative;overflow:hidden;
