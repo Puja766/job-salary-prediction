@@ -205,7 +205,7 @@ st.markdown(f"""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
 *,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
 html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
-#MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
+#MainMenu,footer{{visibility:hidden!important;display:none!important;}}
 .block-container{{padding:0!important;max-width:100%!important;}}
 
 /* ── APP BG ── */
