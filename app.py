@@ -219,68 +219,65 @@ section[data-testid="stSidebar"]{{
   min-width:270px!important; max-width:270px!important;
   transition:all 0.3s;
 }}
-/* ===== CUSTOM SIDEBAR BUTTON ===== */
+st.markdown(f"""
+<style>
 
-[data-testid="collapsedControl"] {{
+/* ── SIDEBAR ── */
+section[data-testid="stSidebar"]{{
+  background:{SIDEBAR_BG}!important;
+  border-right:1px solid {CARD_BORDER}!important;
+  min-width:270px!important;
+  max-width:270px!important;
+  transition:all 0.3s;
+}}
+
+section[data-testid="stSidebar"]>div{{
+    padding:0!important;
+}}
+
+section[data-testid="stSidebar"] *{{
+    color:{TEXT1}!important;
+}}
+
+/* ===== TOGGLE BUTTON ===== */
+
+button[kind="header"] {{
     position: fixed !important;
-    top: 75px !important;
+    top: 72px !important;
     left: 14px !important;
     z-index: 999999 !important;
 
     width: 46px !important;
     height: 46px !important;
 
-    background: rgba(15,23,42,0.95) !important;
     border-radius: 14px !important;
+    background: rgba(15,23,42,0.95) !important;
 
     backdrop-filter: blur(12px) !important;
+    border: 1px solid rgba(255,255,255,0.08) !important;
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
 
-    box-shadow: 0 6px 20px rgba(0,0,0,0.35) !important;
+    box-shadow:0 6px 20px rgba(0,0,0,0.35)!important;
 }}
 
-/* Hide default icon */
-[data-testid="collapsedControl"] svg {{
-    display: none !important;
+/* ICON */
+button[kind="header"]::before {{
+    content:"☰";
+    color:white;
+    font-size:24px;
+    font-weight:700;
 }}
 
-/* Custom Arrow */
-[data-testid="collapsedControl"] button::before {{
-    content: "☰";
-    color: white !important;
-    font-size: 24px !important;
-    font-weight: 700 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    width: 100% !important;
-    height: 100% !important;
-}}
-/* Custom Arrow */
-[data-testid="collapsedControl"] button::before {{
-    content: "☰";
-    color: white !important;
-    font-size: 24px !important;
-    font-weight: 700 !important;
-
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    width: 100% !important;
-    height: 100% !important;
+/* Hide old svg */
+button[kind="header"] svg {{
+    display:none!important;
 }}
 
-/* Remove button style */
-[data-testid="collapsedControl"] button {{
-    background: transparent !important;
-    border: none !important;
-}}
+</style>
+""", unsafe_allow_html=True)
 
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
