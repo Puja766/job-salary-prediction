@@ -195,275 +195,578 @@ else:
     WA_BORDER     = "rgba(37,211,102,0.25)"
     WA_COLOR      = "#16a34a"
 
-# =========================
-# INJECT CSS
-# =========================
 st.markdown(f"""
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
-*,*::before,*::after{{box-sizing:border-box;margin:0;padding:0;}}
-html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
-#MainMenu,footer,header{{visibility:hidden!important;display:none!important;}}
-.block-container{{padding:0!important;max-width:100%!important;}}
-.stApp{{background:{BG}!important;transition:all 0.4s ease;}}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Sora:wght@400;600;700;800&display=swap');
+
+/* =========================
+GLOBAL
+========================= */
+
+*,*::before,*::after{{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+}}
+
+html,body,[class*="css"]{{
+    font-family:'Inter',sans-serif!important;
+}}
+
+#MainMenu,
+footer,
+header{{
+    visibility:hidden!important;
+    display:none!important;
+}}
+
+.block-container{{
+    padding:0!important;
+    max-width:100%!important;
+}}
+
+.stApp{{
+    background:
+    radial-gradient(circle at top left,#312e81 0%,transparent 25%),
+    radial-gradient(circle at bottom right,#1e3a8a 0%,transparent 25%),
+    #0b1120 !important;
+    color:white!important;
+}}
+
+/* =========================
+SIDEBAR
+========================= */
+
 section[data-testid="stSidebar"]{{
-  background:{SIDEBAR_BG}!important;
-  border-right:1px solid {CARD_BORDER}!important;
-  min-width:270px!important; max-width:270px!important;
-  transition:all 0.3s;
+    background:linear-gradient(180deg,#0f172a 0%, #111827 100%)!important;
+    border-right:1px solid rgba(255,255,255,0.08)!important;
+    backdrop-filter:blur(18px);
+    min-width:280px!important;
+    max-width:280px!important;
+    box-shadow:0 0 40px rgba(0,0,0,0.35);
 }}
-section[data-testid="stSidebar"]>div{{padding:0!important;}}
-section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
+
+section[data-testid="stSidebar"] > div{{
+    padding:0!important;
+}}
+
+section[data-testid="stSidebar"] *{{
+    color:white!important;
+}}
+
+/* =========================
+PROFILE CARD
+========================= */
+
 .profile-card{{
-  background:{PROFILE_BG};padding:28px 20px 18px;text-align:center;
-  position:relative;overflow:hidden;
+    padding:34px 24px;
+    background:linear-gradient(135deg,#4f46e5,#7c3aed,#2563eb);
+    position:relative;
+    overflow:hidden;
 }}
+
 .profile-card::before{{
-  content:'';position:absolute;top:-30px;right:-30px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(255,255,255,0.05);
+    content:'';
+    position:absolute;
+    width:240px;
+    height:240px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-120px;
+    right:-100px;
 }}
+
 .profile-card::after{{
-  content:'';position:absolute;bottom:-20px;left:-20px;
-  width:80px;height:80px;border-radius:50%;
-  background:rgba(255,255,255,0.04);
+    content:'';
+    position:absolute;
+    width:180px;
+    height:180px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.05);
+    bottom:-90px;
+    left:-70px;
 }}
+
 .profile-avatar{{
-  width:76px;height:76px;border-radius:50%;
-  background:rgba(255,255,255,0.2);
-  margin:0 auto 12px;display:flex;align-items:center;justify-content:center;
-  font-size:28px;font-weight:800;color:#fff!important;
-  border:3px solid rgba(255,255,255,0.5);
-  box-shadow:0 4px 20px rgba(0,0,0,0.3);
-  position:relative;z-index:1;
+    width:85px;
+    height:85px;
+    border-radius:50%;
+    margin:auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:30px;
+    font-weight:800;
+    background:rgba(255,255,255,0.18);
+    border:3px solid rgba(255,255,255,0.35);
+    backdrop-filter:blur(10px);
+    color:white!important;
+    position:relative;
+    z-index:1;
 }}
+
 .profile-name{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:17px;font-weight:800;color:#fff!important;
-  position:relative;z-index:1;
+    font-family:'Sora',sans-serif!important;
+    font-size:20px;
+    font-weight:700;
+    margin-top:16px;
+    text-align:center;
+    position:relative;
+    z-index:1;
 }}
-.profile-email{{font-size:11px;color:rgba(255,255,255,0.65)!important;margin-top:3px;position:relative;z-index:1;}}
-.profile-since{{font-size:10px;color:rgba(255,255,255,0.45)!important;margin-top:2px;position:relative;z-index:1;}}
+
+.profile-email{{
+    font-size:12px;
+    color:rgba(255,255,255,0.7)!important;
+    text-align:center;
+    margin-top:4px;
+    position:relative;
+    z-index:1;
+}}
+
+.profile-since{{
+    font-size:11px;
+    color:rgba(255,255,255,0.5)!important;
+    text-align:center;
+    margin-top:4px;
+    position:relative;
+    z-index:1;
+}}
+
 .profile-stats{{
-  display:flex;margin-top:16px;border-top:1px solid rgba(255,255,255,0.12);
-  padding-top:14px;position:relative;z-index:1;
+    display:flex;
+    margin-top:22px;
+    padding-top:18px;
+    border-top:1px solid rgba(255,255,255,0.12);
+    position:relative;
+    z-index:1;
 }}
-.profile-stat{{flex:1;text-align:center;border-right:1px solid rgba(255,255,255,0.12);}}
-.profile-stat:last-child{{border-right:none;}}
-.profile-stat-val{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:16px;font-weight:800;color:#fff!important;}}
-.profile-stat-lbl{{font-size:9px;color:rgba(255,255,255,0.55)!important;margin-top:2px;text-transform:uppercase;letter-spacing:.5px;}}
-.sidebar-inner{{padding:12px 14px;}}
-.sb-section-title{{
-  font-size:10px;font-weight:700;color:{TEXT3}!important;
-  text-transform:uppercase;letter-spacing:1.2px;
-  margin:14px 0 7px;padding:0 2px;
+
+.profile-stat{{
+    flex:1;
+    text-align:center;
+    border-right:1px solid rgba(255,255,255,0.1);
 }}
-.contact-item{{
-  display:flex;align-items:flex-start;gap:10px;
-  padding:8px 2px;border-bottom:1px solid {DIVIDER};
+
+.profile-stat:last-child{{
+    border-right:none;
 }}
-.contact-item:last-child{{border-bottom:none;}}
-.contact-icon{{font-size:14px;width:20px;text-align:center;flex-shrink:0;margin-top:1px;}}
-.contact-label{{font-size:9px;color:{TEXT3}!important;text-transform:uppercase;letter-spacing:.5px;}}
-.contact-val{{font-size:12px;color:{TEXT1}!important;font-weight:500;margin-top:1px;word-break:break-all;}}
-.signout-wrap{{padding:8px 14px 16px;}}
-.signout-wrap .stButton>button{{
-  background:rgba(239,68,68,0.08)!important;color:#ef4444!important;
-  border:1.5px solid rgba(239,68,68,0.25)!important;
-  height:40px!important;font-size:13px!important;font-weight:600!important;
-  box-shadow:none!important;border-radius:10px!important;
+
+.profile-stat-val{{
+    font-size:22px;
+    font-weight:800;
+    font-family:'Sora',sans-serif!important;
 }}
-.signout-wrap .stButton>button:hover{{background:rgba(239,68,68,0.18)!important;}}
-.theme-sb .stButton>button{{
-  background:{ACCENT_SOFT}!important;color:{ACCENT}!important;
-  border:1.5px solid {ACCENT_BORDER}!important;
-  height:38px!important;font-size:13px!important;font-weight:600!important;
-  box-shadow:none!important;border-radius:9px!important;
+
+.profile-stat-lbl{{
+    font-size:10px;
+    margin-top:4px;
+    color:rgba(255,255,255,0.6)!important;
+    text-transform:uppercase;
+    letter-spacing:1px;
 }}
+
+/* =========================
+TOP NAVBAR
+========================= */
+
 .top-header{{
-  background:{NAV_BG};border-bottom:1px solid {CARD_BORDER};
-  padding:0 28px;display:flex;align-items:center;justify-content:space-between;
-  height:60px;box-shadow:{GLOW};position:sticky;top:0;z-index:100;
+    height:70px;
+    padding:0 30px;
+    background:rgba(15,23,42,0.72);
+    backdrop-filter:blur(18px);
+    border-bottom:1px solid rgba(255,255,255,0.06);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    position:sticky;
+    top:0;
+    z-index:999;
 }}
+
 .top-logo{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:22px;font-weight:900;color:{TEXT1}!important;
-  display:flex;align-items:center;gap:10px;letter-spacing:-0.5px;
+    font-size:26px;
+    font-family:'Sora',sans-serif!important;
+    font-weight:800;
+    color:white!important;
 }}
-.top-logo em{{
-  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;font-style:normal;
+
+.top-logo span{{
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
 }}
-.top-badge{{
-  font-size:10px;font-weight:700;padding:2px 8px;border-radius:99px;
-  background:{ACCENT_SOFT};color:{ACCENT}!important;
-  border:1px solid {ACCENT_BORDER};letter-spacing:.5px;text-transform:uppercase;
+
+.top-right{{
+    display:flex;
+    align-items:center;
+    gap:14px;
 }}
-.top-right{{display:flex;align-items:center;gap:12px;}}
+
 .top-avatar{{
-  width:34px;height:34px;border-radius:50%;
-  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
-  display:flex;align-items:center;justify-content:center;
-  font-size:13px;font-weight:700;color:#fff!important;
-  box-shadow:0 2px 8px rgba(99,102,241,0.35);
+    width:38px;
+    height:38px;
+    border-radius:50%;
+    background:linear-gradient(135deg,#6366f1,#8b5cf6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:white!important;
+    font-weight:700;
 }}
-.top-username{{font-size:13px;font-weight:600;color:{TEXT1}!important;}}
-.nav-tabs-outer{{
-  background:{NAV_BG};border-bottom:1px solid {DIVIDER};padding:6px 20px;
+
+.top-username{{
+    font-size:14px;
+    font-weight:600;
+    color:white!important;
 }}
-.page-wrap{{padding:26px 28px 40px;max-width:1120px;margin:0 auto;}}
+
+/* =========================
+PAGE
+========================= */
+
+.page-wrap{{
+    padding:35px;
+    max-width:1200px;
+    margin:auto;
+}}
+
 .page-title{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:24px;font-weight:900;color:{TEXT1}!important;
-  margin-bottom:5px;letter-spacing:-0.3px;
+    font-size:34px;
+    font-weight:800;
+    font-family:'Sora',sans-serif!important;
+    color:white!important;
+    margin-bottom:10px;
 }}
-.page-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:22px;line-height:1.6;}}
-.section-heading{{
-  font-family:'Plus Jakarta Sans',sans-serif!important;
-  font-size:13px;font-weight:700;color:{ACCENT}!important;
-  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
-  display:flex;align-items:center;gap:6px;
+
+.page-sub{{
+    color:#94a3b8!important;
+    font-size:15px;
+    margin-bottom:28px;
 }}
+
+/* =========================
+CARDS
+========================= */
+
 .card{{
-  background:{CARD_BG};border-radius:18px;
-  border:1px solid {CARD_BORDER};padding:22px;
-  box-shadow:{GLOW};margin-bottom:16px;
-  transition:all 0.3s;
+    background:rgba(255,255,255,0.04);
+    backdrop-filter:blur(18px);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:24px;
+    padding:24px;
+    margin-bottom:20px;
+
+    box-shadow:
+    0 8px 32px rgba(0,0,0,0.25),
+    inset 0 1px 0 rgba(255,255,255,0.04);
+
+    transition:all .3s ease;
 }}
-.card:hover{{box-shadow:0 8px 32px rgba(99,102,241,0.18);}}
+
+.card:hover{{
+    transform:translateY(-4px);
+    border-color:rgba(99,102,241,0.4);
+
+    box-shadow:
+    0 12px 32px rgba(99,102,241,0.18),
+    0 0 20px rgba(99,102,241,0.12);
+}}
+
 .card-title{{
-  font-size:10px;font-weight:700;color:{ACCENT}!important;
-  text-transform:uppercase;letter-spacing:1.2px;margin-bottom:14px;
-  padding-bottom:10px;border-bottom:1px solid {DIVIDER};
+    font-size:12px;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:1px;
+    color:#8b5cf6!important;
+    margin-bottom:18px;
 }}
+
+/* =========================
+METRIC CARD
+========================= */
+
 .metric-card{{
-  background:{METRIC_BG};border:1px solid {CARD_BORDER};
-  border-radius:14px;padding:16px 14px;
-  box-shadow:{GLOW};transition:all 0.3s;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    padding:20px;
+    border-radius:20px;
+    backdrop-filter:blur(18px);
+    transition:all .3s ease;
 }}
-.metric-label{{font-size:10px;color:{TEXT3}!important;font-weight:600;margin-bottom:6px;text-transform:uppercase;letter-spacing:.6px;}}
-.metric-value{{font-size:20px;font-weight:800;color:{TEXT1}!important;font-family:'Plus Jakarta Sans',sans-serif!important;}}
-.metric-sub{{font-size:11px;color:#10b981!important;font-weight:600;margin-top:4px;}}
+
+.metric-card:hover{{
+    transform:translateY(-5px);
+
+    box-shadow:
+    0 12px 28px rgba(99,102,241,0.18),
+    0 0 18px rgba(99,102,241,0.12);
+
+    border-color:rgba(99,102,241,0.4);
+}}
+
+.metric-label{{
+    font-size:11px;
+    color:#94a3b8!important;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}}
+
+.metric-value{{
+    font-size:30px;
+    font-weight:800;
+    color:white!important;
+    margin-top:8px;
+    font-family:'Sora',sans-serif!important;
+}}
+
+.metric-sub{{
+    margin-top:6px;
+    color:#10b981!important;
+    font-size:13px;
+    font-weight:600;
+}}
+
+/* =========================
+RESULT HERO
+========================= */
+
 .result-hero{{
-  background:{HERO_BG};border-radius:22px;
-  padding:38px 32px;text-align:center;margin-bottom:22px;
-  box-shadow:0 16px 48px rgba(99,102,241,0.35),0 4px 16px rgba(0,0,0,0.15);
-  position:relative;overflow:hidden;
+    background:
+    linear-gradient(135deg,#4f46e5 0%,#7c3aed 50%,#2563eb 100%);
+
+    border-radius:28px;
+    padding:50px 40px;
+    position:relative;
+    overflow:hidden;
+    text-align:center;
+
+    border:1px solid rgba(255,255,255,0.12);
+
+    box-shadow:
+    0 20px 50px rgba(99,102,241,0.35),
+    0 8px 20px rgba(0,0,0,0.2);
 }}
+
 .result-hero::before{{
-  content:'';position:absolute;top:-40px;right:-40px;
-  width:180px;height:180px;border-radius:50%;
-  background:rgba(255,255,255,0.06);
+    content:'';
+    position:absolute;
+    width:320px;
+    height:320px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.08);
+    top:-160px;
+    right:-140px;
 }}
+
 .result-hero::after{{
-  content:'';position:absolute;bottom:-30px;left:-30px;
-  width:120px;height:120px;border-radius:50%;
-  background:rgba(255,255,255,0.04);
+    content:'';
+    position:absolute;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    background:rgba(255,255,255,0.06);
+    bottom:-120px;
+    left:-80px;
 }}
-.result-hero-label{{font-size:11px;color:rgba(255,255,255,0.7)!important;letter-spacing:2px;text-transform:uppercase;position:relative;z-index:1;}}
-.result-hero-amount{{font-size:58px;font-weight:900;color:#fff!important;margin:10px 0;font-family:'Plus Jakarta Sans',sans-serif!important;position:relative;z-index:1;text-shadow:0 2px 20px rgba(0,0,0,0.2);}}
-.result-hero-sub{{font-size:13px;color:rgba(255,255,255,0.65)!important;position:relative;z-index:1;}}
+
+.result-hero-label{{
+    font-size:12px;
+    letter-spacing:2px;
+    text-transform:uppercase;
+    color:rgba(255,255,255,0.75)!important;
+    position:relative;
+    z-index:1;
+}}
+
+.result-hero-amount{{
+    font-size:68px;
+    font-weight:900;
+    color:white!important;
+    margin:14px 0;
+    font-family:'Sora',sans-serif!important;
+    position:relative;
+    z-index:1;
+}}
+
+.result-hero-sub{{
+    font-size:14px;
+    color:rgba(255,255,255,0.7)!important;
+    position:relative;
+    z-index:1;
+}}
+
+/* =========================
+INPUTS
+========================= */
+
+.stTextInput input,
+.stNumberInput input,
+.stSelectbox > div > div{{
+    background:rgba(255,255,255,0.04)!important;
+    border:1px solid rgba(255,255,255,0.08)!important;
+    color:white!important;
+    border-radius:14px!important;
+    padding:12px 14px!important;
+    backdrop-filter:blur(10px);
+}}
+
+.stTextInput input:focus,
+.stNumberInput input:focus{{
+    border-color:#6366f1!important;
+
+    box-shadow:
+    0 0 0 3px rgba(99,102,241,0.2)!important;
+}}
+
+.stTextInput label,
+.stNumberInput label,
+.stSelectbox label{{
+    color:#cbd5e1!important;
+    font-size:12px!important;
+    font-weight:600!important;
+    text-transform:uppercase;
+    letter-spacing:1px;
+}}
+
+/* =========================
+BUTTONS
+========================= */
+
+.stButton > button{{
+    background:linear-gradient(135deg,#6366f1,#8b5cf6)!important;
+    border:none!important;
+    color:white!important;
+    height:50px!important;
+    border-radius:14px!important;
+    font-size:15px!important;
+    font-weight:700!important;
+
+    box-shadow:
+    0 8px 20px rgba(99,102,241,0.3)!important;
+
+    transition:all .25s ease!important;
+}}
+
+.stButton > button:hover{{
+    transform:translateY(-2px) scale(1.02)!important;
+
+    box-shadow:
+    0 12px 30px rgba(99,102,241,0.55)!important,
+    0 0 24px rgba(99,102,241,0.35)!important;
+}}
+
+/* =========================
+INSIGHT CARD
+========================= */
+
 .insight-card{{
-  background:{CARD_BG};border-radius:14px;border:1px solid {CARD_BORDER};
-  padding:16px 18px;margin-bottom:10px;display:flex;gap:14px;align-items:flex-start;
-  transition:all 0.2s;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    border-radius:18px;
+    padding:18px;
+    margin-bottom:14px;
+    backdrop-filter:blur(14px);
+
+    transition:all .25s ease;
 }}
-.insight-card:hover{{border-color:{ACCENT_BORDER};box-shadow:0 4px 16px rgba(99,102,241,0.12);}}
-.insight-icon{{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}}
-.insight-icon-blue  {{background:{'rgba(99,102,241,0.15)' if dm else '#eef2ff'};}}
-.insight-icon-green {{background:{'rgba(16,185,129,0.15)' if dm else '#f0fdf4'};}}
-.insight-icon-amber {{background:{'rgba(245,158,11,0.15)'  if dm else '#fffbeb'};}}
-.insight-icon-rose  {{background:{'rgba(244,63,94,0.15)'   if dm else '#fff1f2'};}}
-.insight-title{{font-size:14px;font-weight:700;color:{TEXT1}!important;margin-bottom:4px;}}
-.insight-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.6;}}
-.roadmap-step{{display:flex;gap:14px;align-items:flex-start;padding:18px 0;border-bottom:1px solid {DIVIDER};}}
-.roadmap-step:last-child{{border-bottom:none;}}
-.step-dot{{width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex-shrink:0;margin-top:2px;}}
-.step-dot-done{{background:{ACCENT};color:#fff;}}
-.step-dot-curr{{background:linear-gradient(135deg,{ACCENT},{ACCENT2});color:#fff;box-shadow:0 0 0 5px {ACCENT_SOFT};}}
-.step-dot-next{{background:{STEP_NEXT_BG};color:{STEP_NEXT_C}!important;border:2px dashed {STEP_NEXT_B};}}
-.step-title{{font-size:15px;font-weight:700;color:{TEXT1}!important;}}
-.step-sub{{font-size:12px;color:{TEXT2}!important;margin-top:3px;}}
-.step-badge{{display:inline-block;font-size:10px;font-weight:700;padding:3px 10px;border-radius:99px;margin-top:6px;letter-spacing:.3px;}}
-.badge-current{{background:{ACCENT_SOFT};color:{ACCENT}!important;}}
-.badge-done{{background:{'rgba(16,185,129,0.15)' if dm else '#dcfce7'};color:#10b981!important;}}
-.badge-future{{background:{'rgba(30,41,59,0.4)' if dm else '#f1f5f9'};color:{TEXT3}!important;}}
-.compare-bar-wrap{{margin-bottom:14px;}}
-.compare-bar-label{{display:flex;justify-content:space-between;font-size:13px;margin-bottom:5px;}}
-.compare-bar-track{{height:8px;background:{BAR_TRACK};border-radius:99px;overflow:hidden;}}
-.compare-bar-fill{{height:100%;border-radius:99px;}}
-.lb-row{{display:flex;align-items:center;gap:14px;padding:14px 16px;border-radius:14px;margin-bottom:8px;border:1px solid {CARD_BORDER};transition:all 0.2s;background:{CARD_BG};}}
-.lb-row:hover{{background:{ACCENT_SOFT};border-color:{ACCENT_BORDER};transform:translateX(3px);}}
-.lb-row.gold  {{background:{LB_GOLD};border-color:{'rgba(245,158,11,0.3)' if dm else '#fde68a'};}}
-.lb-row.silver{{background:{LB_SILVER};}}
-.lb-row.bronze{{background:{LB_BRONZE};border-color:{'rgba(180,83,9,0.3)' if dm else '#fed7aa'};}}
-.lb-rank{{font-size:16px;font-weight:800;min-width:28px;color:{TEXT1}!important;}}
-.lb-name{{flex:1;font-size:13px;font-weight:700;color:{TEXT1}!important;}}
-.lb-role{{font-size:11px;color:{TEXT2}!important;margin-top:2px;}}
-.lb-salary{{font-size:16px;font-weight:800;color:{ACCENT}!important;font-family:'Plus Jakarta Sans',sans-serif!important;}}
-.wa-card{{
-  background:{WA_BG};border:1.5px solid {WA_BORDER};
-  border-radius:16px;padding:20px;margin-top:18px;
+
+.insight-card:hover{{
+    border-color:rgba(99,102,241,0.35);
+
+    box-shadow:
+    0 8px 22px rgba(99,102,241,0.16);
 }}
-.wa-title{{font-size:14px;font-weight:700;color:{WA_COLOR}!important;margin-bottom:8px;display:flex;align-items:center;gap:8px;}}
-.wa-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.6;margin-bottom:14px;}}
-.wa-btn a{{
-  display:inline-flex;align-items:center;gap:8px;
-  background:linear-gradient(135deg,#25D366,#128C7E);
-  color:#fff!important;font-weight:700;font-size:14px;
-  padding:12px 24px;border-radius:12px;text-decoration:none;
-  box-shadow:0 4px 16px rgba(37,211,102,0.3);transition:all 0.2s;
+
+.insight-title{{
+    font-size:15px;
+    font-weight:700;
+    color:white!important;
 }}
-.wa-btn a:hover{{box-shadow:0 6px 24px rgba(37,211,102,0.45);transform:translateY(-1px);}}
-.feature-card{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};
-  padding:26px 20px;border-radius:20px;text-align:center;
-  transition:all 0.3s;box-shadow:{GLOW};
+
+.insight-desc{{
+    font-size:13px;
+    color:#94a3b8!important;
+    margin-top:6px;
+    line-height:1.7;
 }}
-.feature-card:hover{{transform:translateY(-5px);box-shadow:0 16px 40px rgba(99,102,241,0.18);border-color:{ACCENT_BORDER};}}
-.feature-icon{{font-size:36px;margin-bottom:12px;}}
-.feature-title{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:15px;font-weight:800;color:{TEXT1}!important;margin-bottom:6px;}}
-.feature-desc{{font-size:13px;color:{TEXT2}!important;line-height:1.5;}}
-.stat-strip{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};border-radius:16px;
-  display:flex;padding:20px 0;margin-bottom:24px;box-shadow:{GLOW};
+
+/* =========================
+LEADERBOARD
+========================= */
+
+.lb-row{{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px;
+    border-radius:18px;
+    background:rgba(255,255,255,0.04);
+    border:1px solid rgba(255,255,255,0.08);
+    margin-bottom:10px;
+    transition:all .25s ease;
 }}
-.stat-strip-item{{flex:1;text-align:center;border-right:1px solid {DIVIDER};}}
-.stat-strip-item:last-child{{border-right:none;}}
-.stat-strip-val{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:24px;font-weight:900;background:linear-gradient(135deg,{ACCENT},{ACCENT2});-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}}
-.stat-strip-lbl{{font-size:11px;color:{TEXT2}!important;margin-top:3px;font-weight:500;}}
-.login-card{{
-  background:{CARD_BG};border:1px solid {CARD_BORDER};
-  padding:32px;border-radius:22px;box-shadow:{GLOW};
+
+.lb-row:hover{{
+    transform:translateX(4px);
+
+    border-color:rgba(99,102,241,0.4);
+
+    box-shadow:
+    0 8px 24px rgba(99,102,241,0.16);
 }}
-.login-heading{{font-family:'Plus Jakarta Sans',sans-serif!important;font-size:26px;font-weight:900;color:{TEXT1}!important;margin-bottom:6px;}}
-.login-sub{{font-size:14px;color:{TEXT2}!important;margin-bottom:24px;}}
-.footer{{text-align:center;color:{TEXT3}!important;padding:24px;font-size:12px;border-top:1px solid {DIVIDER};margin-top:20px;}}
-.trend-up{{color:#10b981!important;font-weight:700;font-size:12px;}}
-.pill{{display:inline-block;background:{ACCENT_SOFT};color:{ACCENT}!important;border-radius:99px;padding:5px 14px;font-size:12px;font-weight:600;margin:3px;border:1px solid {ACCENT_BORDER};}}
-h1,h2,h3{{font-family:'Plus Jakarta Sans',sans-serif!important;color:{TEXT1}!important;}}
-p,li{{color:{TEXT2}!important;}}
-.stTextInput input,.stNumberInput input{{
-  background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;
-  border-radius:11px!important;color:{TEXT1}!important;font-size:14px!important;padding:10px 14px!important;
+
+.lb-rank{{
+    font-size:18px;
+    font-weight:800;
+    color:white!important;
 }}
-.stTextInput input:focus,.stNumberInput input:focus{{border-color:{ACCENT}!important;box-shadow:0 0 0 3px {ACCENT_SOFT}!important;}}
-.stTextInput label,.stNumberInput label,.stSelectbox label{{color:{TEXT2}!important;font-size:12px!important;font-weight:600!important;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px;}}
-.stTextInput textarea{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;color:{TEXT1}!important;font-size:14px!important;}}
-.stSelectbox>div>div{{background:{INPUT_BG}!important;border:1.5px solid {CARD_BORDER}!important;border-radius:11px!important;}}
-[data-baseweb="popover"],[data-baseweb="menu"],[role="listbox"]{{background:{OPT_BG}!important;border:1px solid {CARD_BORDER}!important;border-radius:14px!important;box-shadow:0 8px 32px rgba(0,0,0,0.15)!important;}}
-[data-baseweb="menu"] li,[role="option"]{{background:{OPT_BG}!important;color:{OPT_C}!important;font-size:14px!important;}}
-[data-baseweb="menu"] li:hover,[role="option"]:hover,[role="option"][aria-selected="true"]{{background:{OPT_H}!important;color:{OPT_CH}!important;}}
-.stButton>button{{
-  background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;
-  color:#fff!important;border:none!important;border-radius:11px!important;
-  height:46px!important;font-size:14px!important;font-weight:700!important;
-  box-shadow:0 4px 16px rgba(99,102,241,0.3)!important;transition:all 0.2s!important;
-  width:100%!important;letter-spacing:.2px;
+
+.lb-name{{
+    flex:1;
+    color:white!important;
+    font-size:14px;
+    font-weight:700;
 }}
-.stButton>button:hover{{transform:translateY(-1px)!important;box-shadow:0 8px 24px rgba(99,102,241,0.45)!important;}}
-.stSlider>div>div>div>div{{background:linear-gradient(90deg,{ACCENT},{ACCENT2})!important;}}
+
+.lb-role{{
+    font-size:12px;
+    color:#94a3b8!important;
+}}
+
+.lb-salary{{
+    color:#8b5cf6!important;
+    font-size:18px;
+    font-weight:800;
+    font-family:'Sora',sans-serif!important;
+}}
+
+/* =========================
+SCROLLBAR
+========================= */
+
+::-webkit-scrollbar{{
+    width:10px;
+}}
+
+::-webkit-scrollbar-track{{
+    background:#0f172a;
+}}
+
+::-webkit-scrollbar-thumb{{
+    background:linear-gradient(#6366f1,#8b5cf6);
+    border-radius:10px;
+}}
+
+/* =========================
+ANIMATION
+========================= */
+
+*{{
+    transition:all .25s ease;
+}}
+
 </style>
 """, unsafe_allow_html=True)
 
