@@ -212,24 +212,15 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* ── APP BG ── */
 .stApp{{background:{BG}!important;transition:all 0.4s ease;}}
 
-st.markdown(f"""
-<style>
-
+/* ── SIDEBAR ── */
 section[data-testid="stSidebar"]{{
-    background: {SIDEBAR_BG} !important;
-    border-right: 1px solid {CARD_BORDER} !important;
-    min-width: 270px !important;
-    max-width: 270px !important;
+  background:{SIDEBAR_BG}!important;
+  border-right:1px solid {CARD_BORDER}!important;
+  min-width:270px!important; max-width:270px!important;
+  transition:all 0.3s;
 }}
-
-[data-testid="collapsedControl"]{{
-    display: flex !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-}}
-
-</style>
-""", unsafe_allow_html=True)
+section[data-testid="stSidebar"]>div{{padding:0!important;}}
+section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
 /* ── PROFILE HEADER ── */
 .profile-card{{
