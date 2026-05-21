@@ -219,6 +219,38 @@ section[data-testid="stSidebar"]{{
   min-width:270px!important; max-width:270px!important;
   transition:all 0.3s;
 }}
+/* ===== Sidebar Toggle Button Fix ===== */
+[data-testid="collapsedControl"] {
+    position: fixed !important;
+    top: 70px !important;
+    left: 12px !important;
+    z-index: 999999 !important;
+
+    background: rgba(30, 41, 59, 0.85) !important;
+    backdrop-filter: blur(12px);
+
+    border-radius: 14px !important;
+    padding: 8px !important;
+
+    box-shadow: 0 4px 20px rgba(0,0,0,0.35) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Hover */
+[data-testid="collapsedControl"]:hover {
+    transform: scale(1.05);
+    transition: 0.2s ease;
+}
+
+/* Arrow Icon */
+[data-testid="collapsedControl"] svg {
+    width: 22px !important;
+    height: 22px !important;
+    color: white !important;
+}
 section[data-testid="stSidebar"]>div{{padding:0!important;}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
 
