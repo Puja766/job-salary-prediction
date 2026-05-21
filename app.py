@@ -261,6 +261,20 @@ section[data-testid="stSidebar"]{{
     width: 100% !important;
     height: 100% !important;
 }}
+/* Custom Arrow */
+[data-testid="collapsedControl"] button::before {{
+    content: "☰";
+    color: white !important;
+    font-size: 24px !important;
+    font-weight: 700 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    width: 100% !important;
+    height: 100% !important;
+}}
 
 /* Remove button style */
 [data-testid="collapsedControl"] button {{
