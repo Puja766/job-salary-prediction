@@ -60,8 +60,6 @@ if "profile_section" not in st.session_state:
     st.session_state.profile_section = "info"
 if "dark_mode" not in st.session_state:
     st.session_state.dark_mode = True
-if "sidebar_open" not in st.session_state:
-    st.session_state.sidebar_open = True
 if "last_prediction" not in st.session_state:
     st.session_state.last_prediction = None
 if "auth_mode" not in st.session_state:
@@ -282,36 +280,58 @@ section[data-testid="stSidebar"]{{
 section[data-testid="stSidebar"]>div{{padding:0!important}}
 section[data-testid="stSidebar"] *{{color:{TEXT1}!important}}
 
-/* HIDE DEFAULT STREAMLIT SIDEBAR ARROW/COLLAPSE BUTTON */
+/* ── SIDEBAR TOGGLE BUTTON (Streamlit native button restyled) ── */
+/* The native Streamlit collapse/expand arrow button */
 button[data-testid="collapsedControl"],
-[data-testid="stSidebarCollapsedControl"],
-.css-1rs6os, .css-17ziqus,
-button[kind="header"][aria-label="Close sidebar"],
-section[data-testid="stSidebar"] > div > div > button{{
-  display:none!important;visibility:hidden!important
+[data-testid="stSidebarCollapsedControl"]>button,
+div[data-testid="stSidebarCollapsedControl"]{{
+  position:fixed!important;
+  top:12px!important;
+  left:12px!important;
+  z-index:99999!important;
+  width:40px!important;
+  height:40px!important;
+  border-radius:12px!important;
+  background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;
+  border:none!important;
+  box-shadow:0 4px 18px rgba(99,102,241,0.5)!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  cursor:pointer!important;
+  transition:all 0.2s ease!important;
+  padding:0!important;
+}}
+button[data-testid="collapsedControl"]:hover,
+[data-testid="stSidebarCollapsedControl"]>button:hover{{
+  transform:scale(1.08)!important;
+  box-shadow:0 6px 24px rgba(99,102,241,0.65)!important;
+}}
+/* Hide the default svg arrow icon inside button */
+button[data-testid="collapsedControl"] svg,
+[data-testid="stSidebarCollapsedControl"] svg{{
+  display:none!important;
+}}
+/* Show hamburger/close icon using CSS */
+button[data-testid="collapsedControl"]::after,
+[data-testid="stSidebarCollapsedControl"]>button::after{{
+  content:'☰'!important;
+  color:#fff!important;
+  font-size:18px!important;
+  font-weight:700!important;
+  line-height:1!important;
+}}
+/* When sidebar is open, show ✕ icon */
+section[data-testid="stSidebar"][aria-expanded="true"] ~ * button[data-testid="collapsedControl"]::after,
+section[data-testid="stSidebar"]:not([style*="display: none"]) ~ div button[data-testid="collapsedControl"]::after{{
+  content:'✕'!important;
 }}
 
-/* CUSTOM SIDEBAR TOGGLE BUTTON */
-.sidebar-toggle-btn{{
-  position:fixed;
-  top:14px;
-  left:14px;
-  z-index:9999;
-  width:36px;height:36px;
-  border-radius:10px;
-  background:linear-gradient(135deg,{ACCENT},{ACCENT2});
-  border:none;
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  box-shadow:0 4px 16px rgba(99,102,241,0.45);
-  color:#fff;
-  font-size:18px;
-  transition:all 0.2s;
-  outline:none;
-}}
-.sidebar-toggle-btn:hover{{
-  transform:scale(1.08);
-  box-shadow:0 6px 22px rgba(99,102,241,0.6);
+/* Hide default expand arrow that appears on top of sidebar */
+section[data-testid="stSidebar"] button[data-testid="baseButton-header"],
+section[data-testid="stSidebar"] [data-testid="stSidebarNavItems"] + div > button,
+section[data-testid="stSidebar"] > div > div:first-child > div:first-child > button{{
+  display:none!important;
 }}
 
 /* PROFILE CARD IN SIDEBAR */
@@ -652,54 +672,35 @@ section[data-testid="stSidebar"] > div > div > button{{
 
 h1,h2,h3{{font-family:'Plus Jakarta Sans',sans-serif!important;color:{TEXT1}!important}}
 p,li{{color:{TEXT2}!important}}
-
-/* SIDEBAR HIDDEN STATE - full screen content when sidebar closed */
-.sidebar-collapsed section[data-testid="stSidebar"]{{
-  display:none!important;
-}}
 </style>
 """, unsafe_allow_html=True)
-    # ── Sidebar Toggle Button (JS) ──
-    st.markdown("""
+
+    # ── JS: sidebar ke andar wala arrow button hide karo ──
+    import streamlit.components.v1 as components
+    components.html("""
 <script>
-(function() {
-  function injectToggle() {
-    if (document.getElementById('sb-toggle-btn')) return;
-    var btn = document.createElement('button');
-    btn.id = 'sb-toggle-btn';
-    btn.className = 'sidebar-toggle-btn';
-    btn.title = 'Toggle Sidebar';
+(function hideSidebarInnerArrow() {
+  function run() {
+    // Sidebar ke andar top-right arrow/chevron button hide karo
     var sidebar = document.querySelector('section[data-testid="stSidebar"]');
-    var isOpen = sidebar ? getComputedStyle(sidebar).display !== 'none' : true;
-    btn.innerHTML = isOpen ? '✕' : '☰';
-    btn.addEventListener('click', function() {
-      var sb = document.querySelector('section[data-testid="stSidebar"]');
-      if (!sb) return;
-      if (sb.style.display === 'none' || sb.classList.contains('sb-hidden')) {
-        sb.style.display = '';
-        sb.classList.remove('sb-hidden');
-        btn.innerHTML = '✕';
-        document.querySelector('.block-container') && (document.querySelector('.block-container').style.maxWidth = '');
-      } else {
-        sb.style.display = 'none';
-        sb.classList.add('sb-hidden');
-        btn.innerHTML = '☰';
-        var bc = document.querySelector('.block-container');
-        if (bc) bc.style.maxWidth = '100%';
+    if (!sidebar) return;
+    // First button inside sidebar header area
+    var btns = sidebar.querySelectorAll('button');
+    btns.forEach(function(btn) {
+      var svg = btn.querySelector('svg');
+      if (svg) {
+        btn.style.display = 'none';
       }
     });
-    document.body.appendChild(btn);
   }
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', injectToggle);
-  } else {
-    injectToggle();
-    setTimeout(injectToggle, 500);
-    setTimeout(injectToggle, 1500);
-  }
+  run();
+  setTimeout(run, 500);
+  setTimeout(run, 1500);
+  var obs = new MutationObserver(run);
+  obs.observe(document.body, {childList: true, subtree: true});
 })();
 </script>
-""", unsafe_allow_html=True)
+""", height=0)
 
     return TOGGLE_LBL
 
