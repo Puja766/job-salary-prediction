@@ -105,6 +105,7 @@ defaults = {
     "last_prediction": None, "last_inputs": None,
     "dark_mode": True, "profile_section": "info", "edit_mode": False,
     "show_public_home": True, "sidebar_collapsed": False,
+    "auth_page": "signup",  # default: signup dikhega pehle
 }
 for k, v in defaults.items():
     if k not in st.session_state:
@@ -234,13 +235,13 @@ html,body,[class*="css"]{{font-family:'Inter',sans-serif!important;}}
 /* The actual scrollable content area: push it down by navbar height (60px) + a little breathing room */
 section.main > div.block-container,
 div[data-testid="stVerticalBlock"] > div:first-child{{
-  padding-top:0!important;
+  padding-top:20px!important;
 }}
 
 /* Ensure the sticky header sits above everything */
 .top-header{{
   position:sticky!important;
-  top:0!important;
+  top:30!important;
   z-index:999!important;
 }}
 
@@ -659,6 +660,11 @@ def show_login():
             st.rerun()
         else:
             st.error("Invalid username or password")
+    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align:center;font-size:13px;color:{TEXT2};">New here? <span style="color:{ACCENT};font-weight:700;cursor:pointer;" id="goto_signup">Create a free account</span></div>', unsafe_allow_html=True)
+    if st.button("📝 Create Free Account", key="li_goto_signup"):
+        st.session_state.auth_page = "signup"
+        st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
 def show_signup():
@@ -671,7 +677,10 @@ def show_signup():
     p     = st.text_input("Password",         type="password", placeholder="Min. 6 characters", key="su_p")
     cp    = st.text_input("Confirm Password", type="password", placeholder="Repeat password",   key="su_cp")
     if st.button("Create Account →", key="su_btn"):
-        if u in st.session_state.users: st.warning("Username already exists")
+        if u in st.session_state.users:
+            st.warning("Username already exists! Please login instead.")
+            st.session_state.auth_page = "login"
+            st.rerun()
         elif p != cp: st.warning("Passwords do not match")
         elif len(p) < 6: st.warning("Password must be at least 6 characters")
         elif not u: st.warning("Please fill all fields")
@@ -679,7 +688,14 @@ def show_signup():
             st.session_state.users[u] = {"password":p,"name":name or u,"email":email,
                 "phone":"","city":"","linkedin":"","bio":"","joined":datetime.now().strftime("%d %b %Y")}
             save_users(st.session_state.users)
-            st.success("Account created! Please login ✅")
+            st.success("Account created! Redirecting to login... ✅")
+            st.session_state.auth_page = "login"
+            st.rerun()
+    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+    st.markdown(f'<div style="text-align:center;font-size:13px;color:{TEXT2};">Already have an account?</div>', unsafe_allow_html=True)
+    if st.button("🔐 Login to your account", key="su_goto_login"):
+        st.session_state.auth_page = "login"
+        st.rerun()
     st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
@@ -1295,8 +1311,33 @@ elif not st.session_state.logged_in and not st.session_state.show_public_home:
 
     st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-top:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
 
-    menu = st.sidebar.radio("", ["🔐 Login", "📝 Sign Up"], label_visibility="collapsed")
-    if "Login" in menu:
+    # Sidebar nav buttons (radio hata diya — wo session state override karta tha)
+    st.sidebar.markdown(f'<div style="padding:0 14px 8px;">', unsafe_allow_html=True)
+    cur = st.session_state.auth_page
+    login_style  = f"background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;color:#fff!important;" if cur=="login"  else ""
+    signup_style = f"background:linear-gradient(135deg,{ACCENT},{ACCENT2})!important;color:#fff!important;" if cur=="signup" else ""
+    st.sidebar.markdown(f"""
+    <style>
+    div[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] .sb-nav-login .stButton>button  {{ {login_style} }}
+    div[data-testid="stSidebar"] div[data-testid="stVerticalBlock"] .sb-nav-signup .stButton>button {{ {signup_style} }}
+    </style>
+    """, unsafe_allow_html=True)
+    c1, c2 = st.sidebar.columns(2)
+    with c1:
+        st.markdown('<div class="sb-nav-login">', unsafe_allow_html=True)
+        if st.sidebar.button("🔐 Login", key="sb_nav_login"):
+            st.session_state.auth_page = "login"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+    with c2:
+        st.markdown('<div class="sb-nav-signup">', unsafe_allow_html=True)
+        if st.sidebar.button("📝 Sign Up", key="sb_nav_signup"):
+            st.session_state.auth_page = "signup"
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+    st.sidebar.markdown('</div>', unsafe_allow_html=True)
+
+    if st.session_state.auth_page == "login":
         show_login()
     else:
         show_signup()
