@@ -238,10 +238,16 @@ div[data-testid="stVerticalBlock"] > div:first-child{{
   padding-top:20px!important;
 }}
 
+/* Remove default top margin from first element rendered in main area */
+[data-testid="stVerticalBlock"] > div:first-child > div:first-child{{
+  margin-top:0!important;
+  padding-top:20px!important;
+}}
+
 /* Ensure the sticky header sits above everything */
 .top-header{{
   position:sticky!important;
-  top:30!important;
+  top:0!important;
   z-index:999!important;
 }}
 
@@ -345,7 +351,7 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   font-family:'Plus Jakarta Sans',sans-serif!important;
   font-size:22px;font-weight:900;color:{TEXT1}!important;
   display:flex;align-items:center;gap:10px;letter-spacing:-0.5px;   position:relative;
-  top:8px; 
+  top:6px; 
 }}
 .top-logo em{{
   background:linear-gradient(135deg,{ACCENT},{ACCENT2});
@@ -364,10 +370,10 @@ section[data-testid="stSidebar"] *{{color:{TEXT1}!important;}}
   display:flex;align-items:center;justify-content:center;
   font-size:13px;font-weight:700;color:#fff!important;
   box-shadow:0 2px 8px rgba(99,102,241,0.35);  position:relative;
-  top:8px; 
+  top:5px; 
 }}
 .top-username{{font-size:13px;font-weight:600;color:{TEXT1}!important; position:relative;
-  top:8px; }}
+  top:5px; }}
 
 .page-wrap{{
   padding:24px 28px 40px;
@@ -642,61 +648,63 @@ _Powered by SalaryIQ AI Platform_ 🤖"""
 # LOGIN PAGE
 # =========================
 def show_login():
-    st.markdown('<div class="login-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-heading">Welcome back 👋</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-sub">Sign in to your career intelligence dashboard</div>', unsafe_allow_html=True)
-    u = st.text_input("Username", placeholder="Enter your username", key="li_u")
-    p = st.text_input("Password", type="password", placeholder="Enter your password", key="li_p")
-    st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
-    if st.button("Sign In →", key="li_btn"):
-        users = st.session_state.users
-        udata = get_user_data(u) if u in users else None
-        if udata and udata.get("password") == p:
-            st.session_state.logged_in  = True
-            st.session_state.username   = u
-            st.session_state.active_tab = "predict"   # ← lands on Predict tab
-            st.session_state.show_public_home = False
-            st.success(f"Welcome {udata.get('name', u)} 🎉")
+    _, col, _ = st.columns([1, 2, 1])
+    with col:
+        st.markdown(f'<div class="login-heading">Welcome back 👋</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="login-sub">Sign in to your career intelligence dashboard</div>', unsafe_allow_html=True)
+        st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+        u = st.text_input("Username", placeholder="Enter your username", key="li_u")
+        p = st.text_input("Password", type="password", placeholder="Enter your password", key="li_p")
+        st.markdown("<div style='height:4px'></div>", unsafe_allow_html=True)
+        if st.button("Sign In →", key="li_btn", use_container_width=True):
+            users = st.session_state.users
+            udata = get_user_data(u) if u in users else None
+            if udata and udata.get("password") == p:
+                st.session_state.logged_in  = True
+                st.session_state.username   = u
+                st.session_state.active_tab = "predict"
+                st.session_state.show_public_home = False
+                st.success(f"Welcome {udata.get('name', u)} 🎉")
+                st.rerun()
+            else:
+                st.error("Invalid username or password")
+        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align:center;font-size:13px;color:{TEXT2};">New here? <strong style="color:{ACCENT};">Create a free account</strong></div>', unsafe_allow_html=True)
+        if st.button("📝 Create Free Account", key="li_goto_signup", use_container_width=True):
+            st.session_state.auth_page = "signup"
             st.rerun()
-        else:
-            st.error("Invalid username or password")
-    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-    st.markdown(f'<div style="text-align:center;font-size:13px;color:{TEXT2};">New here? <span style="color:{ACCENT};font-weight:700;cursor:pointer;" id="goto_signup">Create a free account</span></div>', unsafe_allow_html=True)
-    if st.button("📝 Create Free Account", key="li_goto_signup"):
-        st.session_state.auth_page = "signup"
-        st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 def show_signup():
-    st.markdown('<div class="login-card">', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-heading">Create account 🚀</div>', unsafe_allow_html=True)
-    st.markdown(f'<div class="login-sub">Join thousands discovering their true market value</div>', unsafe_allow_html=True)
-    name  = st.text_input("Full Name",        placeholder="John Doe",          key="su_name")
-    email = st.text_input("Email",            placeholder="you@example.com",   key="su_email")
-    u     = st.text_input("Username",         placeholder="Choose a username", key="su_u")
-    p     = st.text_input("Password",         type="password", placeholder="Min. 6 characters", key="su_p")
-    cp    = st.text_input("Confirm Password", type="password", placeholder="Repeat password",   key="su_cp")
-    if st.button("Create Account →", key="su_btn"):
-        if u in st.session_state.users:
-            st.warning("Username already exists! Please login instead.")
+    _, col, _ = st.columns([1, 2, 1])
+    with col:
+        st.markdown(f'<div class="login-heading">Create account 🚀</div>', unsafe_allow_html=True)
+        st.markdown(f'<div class="login-sub">Join thousands discovering their true market value</div>', unsafe_allow_html=True)
+        st.markdown("<div style='height:8px'></div>", unsafe_allow_html=True)
+        name  = st.text_input("Full Name",        placeholder="John Doe",          key="su_name")
+        email = st.text_input("Email",            placeholder="you@example.com",   key="su_email")
+        u     = st.text_input("Username",         placeholder="Choose a username", key="su_u")
+        p     = st.text_input("Password",         type="password", placeholder="Min. 6 characters", key="su_p")
+        cp    = st.text_input("Confirm Password", type="password", placeholder="Repeat password",   key="su_cp")
+        if st.button("Create Account →", key="su_btn", use_container_width=True):
+            if u in st.session_state.users:
+                st.warning("Username already exists! Please login instead.")
+                st.session_state.auth_page = "login"
+                st.rerun()
+            elif p != cp: st.warning("Passwords do not match")
+            elif len(p) < 6: st.warning("Password must be at least 6 characters")
+            elif not u: st.warning("Please fill all fields")
+            else:
+                st.session_state.users[u] = {"password":p,"name":name or u,"email":email,
+                    "phone":"","city":"","linkedin":"","bio":"","joined":datetime.now().strftime("%d %b %Y")}
+                save_users(st.session_state.users)
+                st.success("Account created! Redirecting to login... ✅")
+                st.session_state.auth_page = "login"
+                st.rerun()
+        st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
+        st.markdown(f'<div style="text-align:center;font-size:13px;color:{TEXT2};">Already have an account?</div>', unsafe_allow_html=True)
+        if st.button("🔐 Login to your account", key="su_goto_login", use_container_width=True):
             st.session_state.auth_page = "login"
             st.rerun()
-        elif p != cp: st.warning("Passwords do not match")
-        elif len(p) < 6: st.warning("Password must be at least 6 characters")
-        elif not u: st.warning("Please fill all fields")
-        else:
-            st.session_state.users[u] = {"password":p,"name":name or u,"email":email,
-                "phone":"","city":"","linkedin":"","bio":"","joined":datetime.now().strftime("%d %b %Y")}
-            save_users(st.session_state.users)
-            st.success("Account created! Redirecting to login... ✅")
-            st.session_state.auth_page = "login"
-            st.rerun()
-    st.markdown("<div style='height:12px'></div>", unsafe_allow_html=True)
-    st.markdown(f'<div style="text-align:center;font-size:13px;color:{TEXT2};">Already have an account?</div>', unsafe_allow_html=True)
-    if st.button("🔐 Login to your account", key="su_goto_login"):
-        st.session_state.auth_page = "login"
-        st.rerun()
-    st.markdown('</div>', unsafe_allow_html=True)
 
 # =========================
 # SIDEBAR (logged-in only)
@@ -1309,7 +1317,7 @@ elif not st.session_state.logged_in and not st.session_state.show_public_home:
         st.rerun()
     st.sidebar.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-top:16px;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
+    st.markdown(f'<div style="background:{HERO_BG};padding:18px 28px;border-radius:16px;text-align:center;font-family:\'Plus Jakarta Sans\',sans-serif;font-size:26px;font-weight:900;color:#fff;margin-top:0;margin-bottom:24px;box-shadow:0 8px 32px rgba(99,102,241,0.3);">💼 SalaryIQ — Know Your Worth</div>', unsafe_allow_html=True)
 
     # Sidebar nav buttons (radio hata diya — wo session state override karta tha)
     st.sidebar.markdown(f'<div style="padding:0 14px 8px;">', unsafe_allow_html=True)
