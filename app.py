@@ -962,7 +962,10 @@ def show_home():
 # =========================
 def show_predict(model, scaler, columns):
     jo = ["Other"]+get_options(columns,"job_title_")
-    eo = ["Other"]+get_options(columns,"education_level_")
+    eo_raw = get_options(columns,"education_level_")
+    if "Bachelor" not in eo_raw:
+        eo_raw.append("Bachelor")
+    eo = ["Other"] + sorted(eo_raw)
     lo = ["Other"]+get_options(columns,"location_")
     io = ["Other"]+get_options(columns,"industry_")
     co = ["Other"]+get_options(columns,"company_size_")
